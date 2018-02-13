@@ -8,15 +8,14 @@ const { Unauthorized } = require('../../error/httpStatusCodeErrors');
  * @param {function} next
  * @return {Promise}
  */
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   if (req.user && req.user.id) {
-    return User.findOne({ _id: req.user.id })
-      .then((user) => {
-        req.user = user;
-
-        next();
-      })
-      .catch(res.errorHandler);
+    try {
+      req.user = await User.findOne({ _id: req.user.id });
+      next();
+    } catch (err) {
+      res.errorHandler(err);
+    }
   }
 
   throw new Unauthorized();

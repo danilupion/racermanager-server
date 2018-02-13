@@ -45,17 +45,17 @@ router.post('/token', async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
 
     if (!user) {
-      res.errorHandler(new Unauthorized());
+      return res.errorHandler(new Unauthorized());
     }
 
     const match = user.comparePassword(req.body.password);
     if (!match) {
-      res.errorHandler(new Unauthorized());
+      return res.errorHandler(new Unauthorized());
     }
 
-    res.send({ token: await generateToken(user) });
+    return res.send({ token: await generateToken(user) });
   } catch (err) {
-    res.errorHandler(err);
+    return res.errorHandler(err);
   }
 });
 

@@ -21,57 +21,66 @@ const exitProgram = () => {
   process.exit();
 };
 
-switch (command) {
-  case COMMANDS.create: {
-    if (args._.length !== 4) {
+const syntax = 'Wrong syntax: users.js create username, email password';
+
+const handleCommandAsync = async () => {
+  switch (command) {
+    case COMMANDS.create: {
+      if (args._.length !== 4) {
+        console.error(syntax);
+        break;
+      }
+
+      const username = args._[1];
+      const email = args._[2];
+      const password = args._[3];
+
+      try {
+        await connectMongoose();
+        const user = await User.create({
+          username,
+          email,
+          password,
+        });
+        console.log(`User with email ${user.email} successfully created`);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        exitProgram();
+      }
+      break;
+    }
+    case COMMANDS.changePassword: {
+      if (args._.length !== 3) {
+        console.error(syntax);
+        break;
+      }
+
+      const email = args._[1];
+      const password = args._[2];
+
+      try {
+        await connectMongoose();
+        const user = await User.findOne({ email });
+        if (user) {
+          user.set({ password });
+          await user.save();
+          console.log('Updated password successfully');
+        } else {
+          console.log('Could not find user');
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        exitProgram();
+      }
+
+      break;
+    }
+    default:
       console.error('Wrong syntax: users.js create username, email password');
       break;
-    }
-
-    const username = args._[1];
-    const email = args._[2];
-    const password = args._[3];
-
-    connectMongoose()
-      .then(() => User.create({
-        username,
-        email,
-        password,
-      }))
-      .then(user => console.log(`User with email ${user.email} successfully created`))
-      .catch(console.error)
-      .then(exitProgram);
-
-    break;
   }
-  case COMMANDS.changePassword: {
-    if (args._.length !== 3) {
-      console.error('Wrong syntax: users.js change-password email password');
-      break;
-    }
+};
 
-    const email = args._[1];
-    const password = args._[2];
-
-    connectMongoose()
-      .then(() => User.findOne({ email }))
-      .then((user) => {
-        if (!user) {
-          throw new Error('Could not find email');
-        }
-
-        user.set({ password });
-
-        // eslint-disable-next-line consistent-return
-        return user.save();
-      })
-      .then(() => console.log('Updated password successfully'))
-      .catch(console.error)
-      .then(exitProgram);
-
-    break;
-  }
-  default:
-    console.error(`Unrecognized command, syntax ${command}`);
-    break;
-}
+handleCommandAsync();

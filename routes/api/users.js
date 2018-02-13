@@ -9,7 +9,7 @@ const router = new express.Router();
  * Route: /api/users
  * Method: POST
  *
- * Creates a nuew user
+ * Creates a new user
  */
 router.post('/', async (req, res) => {
   try {
@@ -20,12 +20,12 @@ router.post('/', async (req, res) => {
     });
 
     if (!user) {
-      res.errorHandler(new InternalServerError());
+      return res.errorHandler(new InternalServerError());
     }
 
-    res.send({ success: true });
+    return res.send(user);
   } catch (err) {
-    res.errorHandler(err);
+    return res.errorHandler(err);
   }
 });
 
