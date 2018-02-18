@@ -36,7 +36,7 @@ module.exports = (schema, {
 
     try {
       // generate a hash and override the clear text password with the hashed one
-      this.password = await bcrypt.hash(this.password, saltingRounds)
+      this.password = await bcrypt.hash(this.password, saltingRounds);
       return next();
     } catch (err) {
       return next(err);

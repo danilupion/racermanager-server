@@ -18,16 +18,14 @@ const command = args._.length && args._[0].toLowerCase();
  * Exits the program
  */
 const exitProgram = () => {
-  process.exit();
-};
 
-const syntax = 'Wrong syntax: users.js create username, email password';
+};
 
 const handleCommandAsync = async () => {
   switch (command) {
     case COMMANDS.create: {
       if (args._.length !== 4) {
-        console.error(syntax);
+        console.error(`Wrong syntax: ${COMMANDS.create} username email password`);
         break;
       }
 
@@ -44,7 +42,7 @@ const handleCommandAsync = async () => {
         });
         console.log(`User with email ${user.email} successfully created`);
       } catch (err) {
-        console.error(err);
+        console.error(err.message);
       } finally {
         exitProgram();
       }
@@ -52,7 +50,7 @@ const handleCommandAsync = async () => {
     }
     case COMMANDS.changePassword: {
       if (args._.length !== 3) {
-        console.error(syntax);
+        console.error(`Wrong syntax: ${COMMANDS.create} password`);
         break;
       }
 
@@ -78,7 +76,7 @@ const handleCommandAsync = async () => {
       break;
     }
     default:
-      console.error('Wrong syntax: users.js create username, email password');
+      console.error(`Unrecognized command, currently supported commands: ${Object.values(COMMANDS).join(', ')}`);
       break;
   }
 };
