@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start:dev": "gulp build-and-watch:backend",
+    "seed": "node commands/seed.js",
+    "users:create": "node commands/users.js create",
+    "users:change-password": "node commands/users.js change-password"
   },
   "author": {
     "name": "Dani Lupión",
@@ -17,13 +22,13 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",
     "minimist": "^1.2.0",
-    "mongoose": "^5.0.4",
+    "mongoose": "^5.0.5",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^4.17.0",
+    "eslint": "^4.18.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "gulp": "github:gulpjs/gulp#4.0",
