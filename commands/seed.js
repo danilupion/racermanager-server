@@ -25,34 +25,163 @@ const USERS = [
 const F1_2018_SEASON = 'F1-2018';
 const F1_CHAMPIONSHIP = 'F1';
 const F1_2018_TEAMS = [
-  'Ferrari',
-  'Force India',
-  'Haas',
-  'McLaren',
-  'Mercedes',
-  'Red Bull',
-  'Renault',
-  'Sauber',
-  'Toro Rosso',
-  'Williams',
+  {
+    name: 'Ferrari',
+    countryCode: 'ITA',
+  },
+  {
+    name: 'Force India',
+    countryCode: 'IND',
+  },
+  {
+    name: 'Haas F1 Team',
+    countryCode: 'USA',
+  },
+  {
+    name: 'McLaren',
+    countryCode: 'GBR',
+  },
+  {
+    name: 'Mercedes',
+    countryCode: 'GER',
+  },
+  {
+    name: 'Red Bull Racing',
+    countryCode: 'AUT',
+  },
+  {
+    name: 'Renault',
+    countryCode: 'FRA',
+  },
+  {
+    name: 'Sauber',
+    countryCode: 'CHE',
+  },
+  {
+    name: 'Toro Rosso',
+    countryCode: 'ITA',
+  },
+  {
+    name: 'Williams',
+    countryCode: 'GBR',
+  },
 ];
 
 const F1_2018_DRIVERS = [
   {
     name: 'Lewis Hamilton',
+    countryCode: 'GBR',
     code: 'HAM',
   },
   {
     name: 'Sebastina Vettel',
+    countryCode: 'GER',
     code: 'VET',
   },
   {
     name: 'Valtteri Bottas',
+    countryCode: 'FIN',
     code: 'BOT',
   },
   {
     name: 'Kimi Räikkönen',
+    countryCode: 'FIN',
     code: 'RAI',
+  },
+  {
+    name: 'Daniel Ricciardo',
+    countryCode: 'AUS',
+    code: 'RIC',
+  },
+  {
+    name: 'Max Verstappen',
+    countryCode: 'NED',
+    code: 'VER',
+  },
+  {
+    name: 'Sergio Perez',
+    countryCode: 'MEX',
+    code: 'PER',
+  },
+  {
+    name: 'Esteban Ocon',
+    countryCode: 'FRA',
+    code: 'OCO',
+  },
+  {
+    name: 'Carlos Sainz',
+    countryCode: 'ESP',
+    code: 'SAI',
+  },
+  {
+    name: 'Nico Hulkenberg',
+    countryCode: 'GER',
+    code: 'HUL',
+  },
+  {
+    name: 'Felipe Massa',
+    countryCode: 'BRA',
+    code: 'MAS',
+  },
+  {
+    name: 'Lance Stroll',
+    countryCode: 'CAN',
+    code: 'STR',
+  },
+  {
+    name: 'Romain Grosjean',
+    countryCode: 'FRA',
+    code: 'GRO',
+  },
+  {
+    name: 'Kevin Magnussen',
+    countryCode: 'DEN',
+    code: 'MAG',
+  },
+  {
+    name: 'Fernando Alonso',
+    countryCode: 'ESP',
+    code: 'ALO',
+  },
+  {
+    name: 'Stoffel Vandoorne',
+    countryCode: 'BEL',
+    code: 'VAN',
+  },
+  {
+    name: 'Jolyon Palmer',
+    countryCode: 'GBR',
+    code: 'PAL',
+  },
+  {
+    name: 'Pascal Wehrlein',
+    countryCode: 'GER',
+    code: 'WEH',
+  },
+  {
+    name: 'Daniil Kvyat',
+    countryCode: 'RUS',
+    code: 'KVY',
+  },
+  {
+    name: 'Marcus Ericsson',
+    countryCode: 'SWE',
+    code: 'ERI',
+  },
+  {
+    name: 'Pierre Gasly',
+    countryCode: 'FRA',
+    code: 'GAS',
+  },
+  {
+    name: 'Antonio Giovinazzi',
+    countryCode: 'ITA',
+    code: 'GIO',
+  },
+  {
+    name: 'Brendon Hartley',
+    countryCode: 'NZL',
+    code: 'HAR',
   },
 ];
 
@@ -113,7 +242,7 @@ const createF1TeamsAsync = async () => {
         const created = await createIfNotPresent(
           Team,
           {
-            name: team,
+            ...team,
             championship: F1_CHAMPIONSHIP,
           },
         );

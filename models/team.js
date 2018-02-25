@@ -8,6 +8,10 @@ const TeamSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  countryCode: {
+    type: String,
+    required: true,
+  },
   championship: {
     type: String,
     required: true,

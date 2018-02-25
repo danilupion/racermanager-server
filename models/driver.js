@@ -11,6 +11,11 @@ const DriverSchema = new mongoose.Schema({
   code: {
     type: String,
     required: true,
+    unique: true,
+  },
+  countryCode: {
+    type: String,
+    required: true,
   },
   championship: {
     type: String,
