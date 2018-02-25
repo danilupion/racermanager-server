@@ -16,6 +16,9 @@ module.exports = ({
   createRoute = true,
   createPath = '/',
   bodyModelTransformation = model => model,
+  deleteRoute = true,
+  deleteModelId = 'id',
+  deletePath = `/:${deleteModelId}`,
 } = {}) => {
   const router = new express.Router();
 
@@ -39,6 +42,20 @@ module.exports = ({
             )
           )
         );
+      } catch (err) {
+        return res.errorHandler(err);
+      }
+    });
+  }
+
+  if (deleteRoute) {
+    router.delete(deletePath, async (req, res) => {
+      try {
+        await Model.remove({
+          _id: req.params[deleteModelId],
+        });
+
+        return res.status(204).end();
       } catch (err) {
         return res.errorHandler(err);
       }
