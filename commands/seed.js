@@ -1,7 +1,12 @@
 /* eslint-disable no-console */
 
 const connectMongoose = require('../helpers/mongoose');
-const { User, Season, Team } = require('../models');
+const {
+  User,
+  Season,
+  Team,
+  Driver,
+} = require('../models');
 
 const USERS = [
   {
@@ -30,6 +35,25 @@ const F1_2018_TEAMS = [
   'Sauber',
   'Toro Rosso',
   'Williams',
+];
+
+const F1_2018_DRIVERS = [
+  {
+    name: 'Lewis Hamilton',
+    code: 'HAM',
+  },
+  {
+    name: 'Sebastina Vettel',
+    code: 'VET',
+  },
+  {
+    name: 'Valtteri Bottas',
+    code: 'BOT',
+  },
+  {
+    name: 'Kimi Räikkönen',
+    code: 'RAI',
+  },
 ];
 
 const createIfNotPresent = async (Model, data, {
@@ -100,6 +124,24 @@ const createF1TeamsAsync = async () => {
   );
 };
 
+const createF1DriversAsync = async () => {
+  await Promise.all(
+    F1_2018_DRIVERS.map(
+      async (driver) => {
+        const created = await createIfNotPresent(
+          Driver,
+          {
+            ...driver,
+            championship: F1_CHAMPIONSHIP,
+          },
+        );
+
+        console.log(`Driver ${driver.name} was ${created ? 'created' : 'skipped'}`);
+      }
+    )
+  );
+};
+
 const seedDatabaseAsync = async () => {
   try {
     await connectMongoose();
@@ -108,6 +150,7 @@ const seedDatabaseAsync = async () => {
       createUsersAsync(),
       createCurrentF12018SeasonAsync(),
       createF1TeamsAsync(),
+      createF1DriversAsync(),
     ]);
   } catch (err) {
     console.log(err.message);
