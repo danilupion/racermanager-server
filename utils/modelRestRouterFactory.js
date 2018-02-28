@@ -3,7 +3,7 @@ const express = require('express');
 const modelFromReq = (req, Model) => Object.keys(Model.schema.obj).reduce(
   (accumulated, current) => (
     req.body[current]
-      ? { ...accumulated, [current]: req.body[current]}
+      ? { ...accumulated, [current]: req.body[current] }
       : { ...accumulated }
   ),
   {},
@@ -19,6 +19,9 @@ module.exports = ({
   deleteRoute = true,
   deleteModelId = 'id',
   deletePath = `/:${deleteModelId}`,
+  updateRoute = true,
+  updateModelId = 'id',
+  updatePath = `/:${updateModelId}`,
 } = {}) => {
   const router = new express.Router();
 
@@ -51,11 +54,41 @@ module.exports = ({
   if (deleteRoute) {
     router.delete(deletePath, async (req, res) => {
       try {
-        await Model.remove({
+        const model = await Model.findOne({
           _id: req.params[deleteModelId],
         });
 
-        return res.status(204).end();
+        if (model) {
+          await model.remove();
+        }
+
+        return res.status(model ? 204 : 404).end();
+      } catch (err) {
+        return res.errorHandler(err);
+      }
+    });
+  }
+
+  if (updateRoute) {
+    router.put(updatePath, async (req, res) => {
+      try {
+        const model = await Model.findOneAndUpdate(
+          {
+            _id: req.params[updateModelId],
+          },
+          bodyModelTransformation(
+            modelFromReq(req, Model)
+          ),
+          {
+            new: true,
+          }
+        );
+
+        if (!model) {
+          return res.status(404).end();
+        }
+
+        return res.send(model);
       } catch (err) {
         return res.errorHandler(err);
       }

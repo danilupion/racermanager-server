@@ -119,11 +119,6 @@ const F1_2018_DRIVERS = [
     code: 'HUL',
   },
   {
-    name: 'Felipe Massa',
-    countryCode: 'BRA',
-    code: 'MAS',
-  },
-  {
     name: 'Lance Stroll',
     countryCode: 'CAN',
     code: 'STR',
@@ -149,21 +144,6 @@ const F1_2018_DRIVERS = [
     code: 'VAN',
   },
   {
-    name: 'Jolyon Palmer',
-    countryCode: 'GBR',
-    code: 'PAL',
-  },
-  {
-    name: 'Pascal Wehrlein',
-    countryCode: 'GER',
-    code: 'WEH',
-  },
-  {
-    name: 'Daniil Kvyat',
-    countryCode: 'RUS',
-    code: 'KVY',
-  },
-  {
     name: 'Marcus Ericsson',
     countryCode: 'SWE',
     code: 'ERI',
@@ -174,14 +154,19 @@ const F1_2018_DRIVERS = [
     code: 'GAS',
   },
   {
-    name: 'Antonio Giovinazzi',
-    countryCode: 'ITA',
-    code: 'GIO',
-  },
-  {
     name: 'Brendon Hartley',
     countryCode: 'NZL',
     code: 'HAR',
+  },
+  {
+    name: 'Charles Leclerc',
+    countryCode: 'MCO',
+    code: 'LEC',
+  },
+  {
+    name: 'Sergey Sirotkin',
+    countryCode: 'RUS',
+    code: 'SIR',
   },
 ];
 
