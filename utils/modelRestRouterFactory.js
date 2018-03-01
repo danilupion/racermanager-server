@@ -11,22 +11,32 @@ const modelFromReq = (req, Model) => Object.keys(Model.schema.obj).reduce(
 
 module.exports = ({
   Model,
+  middlewares = [],
   listAllRoute = true,
   listAllPath = '/',
+  listMiddlewares = [],
+  writeMiddlewares = [],
   createRoute = true,
   createPath = '/',
   bodyModelTransformation = model => model,
+  createMiddlewares = [],
   deleteRoute = true,
   deleteModelId = 'id',
   deletePath = `/:${deleteModelId}`,
+  deleteMiddlewares = [],
   updateRoute = true,
   updateModelId = 'id',
   updatePath = `/:${updateModelId}`,
+  updateMiddlewares = [],
 } = {}) => {
   const router = new express.Router();
 
+  if (middlewares.length > 0) {
+    router.use(...middlewares);
+  }
+
   if (listAllRoute) {
-    router.get(listAllPath, async (req, res) => {
+    router.get(listAllPath, ...listMiddlewares, async (req, res) => {
       try {
         return res.send(await Model.find());
       } catch (err) {
@@ -36,7 +46,7 @@ module.exports = ({
   }
 
   if (createRoute) {
-    router.post(createPath, async (req, res) => {
+    router.post(createPath, ...writeMiddlewares, ...createMiddlewares, async (req, res) => {
       try {
         return res.send(
           await Model.create(
@@ -52,7 +62,7 @@ module.exports = ({
   }
 
   if (deleteRoute) {
-    router.delete(deletePath, async (req, res) => {
+    router.delete(deletePath, ...writeMiddlewares, ...deleteMiddlewares, async (req, res) => {
       try {
         const model = await Model.findOne({
           _id: req.params[deleteModelId],
@@ -70,7 +80,7 @@ module.exports = ({
   }
 
   if (updateRoute) {
-    router.put(updatePath, async (req, res) => {
+    router.put(updatePath, ...writeMiddlewares, ...updateMiddlewares, async (req, res) => {
       try {
         const model = await Model.findOneAndUpdate(
           {

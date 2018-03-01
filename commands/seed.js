@@ -232,7 +232,7 @@ const createF1TeamsAsync = async () => {
           },
         );
 
-        console.log(`Team ${team} was ${created ? 'created' : 'skipped'}`);
+        console.log(`Team ${team.name} was ${created ? 'created' : 'skipped'}`);
       }
     )
   );
