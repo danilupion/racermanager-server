@@ -2,11 +2,11 @@ const passport = require('passport');
 const { ExtractJwt, Strategy } = require('passport-jwt');
 
 const config = require('../../config.json');
-const { InternalServerError } = require('../../error/httpStatusCodeErrors');
+const { Unauthorized } = require('../../error/httpStatusCodeErrors');
 
 const params = {
   secretOrKey: config.authentication.jwtSecret,
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
 };
 
 /**
@@ -19,7 +19,7 @@ const strategy = new Strategy(params, (payload, done) => {
     });
   }
 
-  return done(new InternalServerError());
+  return done(new Unauthorized());
 });
 
 passport.use(strategy);

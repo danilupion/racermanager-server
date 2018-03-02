@@ -1,7 +1,12 @@
 /* eslint-disable no-console */
 
 const connectMongoose = require('../helpers/mongoose');
-const { User, Season, Team } = require('../models');
+const {
+  User,
+  Season,
+  Team,
+  Driver,
+} = require('../models');
 
 const USERS = [
   {
@@ -20,16 +25,149 @@ const USERS = [
 const F1_2018_SEASON = 'F1-2018';
 const F1_CHAMPIONSHIP = 'F1';
 const F1_2018_TEAMS = [
-  'Ferrari',
-  'Force India',
-  'Haas',
-  'McLaren',
-  'Mercedes',
-  'Red Bull',
-  'Renault',
-  'Sauber',
-  'Toro Rosso',
-  'Williams',
+  {
+    name: 'Ferrari',
+    countryCode: 'ITA',
+  },
+  {
+    name: 'Force India',
+    countryCode: 'IND',
+  },
+  {
+    name: 'Haas F1 Team',
+    countryCode: 'USA',
+  },
+  {
+    name: 'McLaren',
+    countryCode: 'GBR',
+  },
+  {
+    name: 'Mercedes',
+    countryCode: 'GER',
+  },
+  {
+    name: 'Red Bull Racing',
+    countryCode: 'AUT',
+  },
+  {
+    name: 'Renault',
+    countryCode: 'FRA',
+  },
+  {
+    name: 'Sauber',
+    countryCode: 'CHE',
+  },
+  {
+    name: 'Toro Rosso',
+    countryCode: 'ITA',
+  },
+  {
+    name: 'Williams',
+    countryCode: 'GBR',
+  },
+];
+
+const F1_2018_DRIVERS = [
+  {
+    name: 'Lewis Hamilton',
+    countryCode: 'GBR',
+    code: 'HAM',
+  },
+  {
+    name: 'Sebastina Vettel',
+    countryCode: 'GER',
+    code: 'VET',
+  },
+  {
+    name: 'Valtteri Bottas',
+    countryCode: 'FIN',
+    code: 'BOT',
+  },
+  {
+    name: 'Kimi Räikkönen',
+    countryCode: 'FIN',
+    code: 'RAI',
+  },
+  {
+    name: 'Daniel Ricciardo',
+    countryCode: 'AUS',
+    code: 'RIC',
+  },
+  {
+    name: 'Max Verstappen',
+    countryCode: 'NED',
+    code: 'VER',
+  },
+  {
+    name: 'Sergio Perez',
+    countryCode: 'MEX',
+    code: 'PER',
+  },
+  {
+    name: 'Esteban Ocon',
+    countryCode: 'FRA',
+    code: 'OCO',
+  },
+  {
+    name: 'Carlos Sainz',
+    countryCode: 'ESP',
+    code: 'SAI',
+  },
+  {
+    name: 'Nico Hulkenberg',
+    countryCode: 'GER',
+    code: 'HUL',
+  },
+  {
+    name: 'Lance Stroll',
+    countryCode: 'CAN',
+    code: 'STR',
+  },
+  {
+    name: 'Romain Grosjean',
+    countryCode: 'FRA',
+    code: 'GRO',
+  },
+  {
+    name: 'Kevin Magnussen',
+    countryCode: 'DEN',
+    code: 'MAG',
+  },
+  {
+    name: 'Fernando Alonso',
+    countryCode: 'ESP',
+    code: 'ALO',
+  },
+  {
+    name: 'Stoffel Vandoorne',
+    countryCode: 'BEL',
+    code: 'VAN',
+  },
+  {
+    name: 'Marcus Ericsson',
+    countryCode: 'SWE',
+    code: 'ERI',
+  },
+  {
+    name: 'Pierre Gasly',
+    countryCode: 'FRA',
+    code: 'GAS',
+  },
+  {
+    name: 'Brendon Hartley',
+    countryCode: 'NZL',
+    code: 'HAR',
+  },
+  {
+    name: 'Charles Leclerc',
+    countryCode: 'MCO',
+    code: 'LEC',
+  },
+  {
+    name: 'Sergey Sirotkin',
+    countryCode: 'RUS',
+    code: 'SIR',
+  },
 ];
 
 const createIfNotPresent = async (Model, data, {
@@ -89,12 +227,30 @@ const createF1TeamsAsync = async () => {
         const created = await createIfNotPresent(
           Team,
           {
-            name: team,
+            ...team,
             championship: F1_CHAMPIONSHIP,
           },
         );
 
-        console.log(`Team ${team} was ${created ? 'created' : 'skipped'}`);
+        console.log(`Team ${team.name} was ${created ? 'created' : 'skipped'}`);
+      }
+    )
+  );
+};
+
+const createF1DriversAsync = async () => {
+  await Promise.all(
+    F1_2018_DRIVERS.map(
+      async (driver) => {
+        const created = await createIfNotPresent(
+          Driver,
+          {
+            ...driver,
+            championship: F1_CHAMPIONSHIP,
+          },
+        );
+
+        console.log(`Driver ${driver.name} was ${created ? 'created' : 'skipped'}`);
       }
     )
   );
@@ -108,6 +264,7 @@ const seedDatabaseAsync = async () => {
       createUsersAsync(),
       createCurrentF12018SeasonAsync(),
       createF1TeamsAsync(),
+      createF1DriversAsync(),
     ]);
   } catch (err) {
     console.log(err.message);

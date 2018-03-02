@@ -12,9 +12,9 @@ module.exports = async (req, res, next) => {
   if (req.user && req.user.id) {
     try {
       req.user = await User.findOne({ _id: req.user.id });
-      next();
+      return next();
     } catch (err) {
-      res.errorHandler(err);
+      return res.errorHandler(err);
     }
   }
 

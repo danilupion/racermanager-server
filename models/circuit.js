@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const timestamps = require('../plugins/mongoose/timestamps');
 
-const TeamSchema = new mongoose.Schema({
+const CircuitSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -12,13 +12,17 @@ const TeamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  championship: {
-    type: String,
+  latitude: {
+    type: Number,
     required: true,
   },
-}, { collection: 'teams' })
+  longitude: {
+    type: Number,
+    required: true,
+  },
+}, { collection: 'circuits' })
   .plugin(timestamps);
 
-const model = mongoose.model('Team', TeamSchema);
+const model = mongoose.model('Circuit', CircuitSchema);
 
 module.exports = model;

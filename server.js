@@ -36,13 +36,6 @@ const createServerAsync = async () => {
     // Register API routes
     app.use('/api', api);
 
-    /*
-    // Serve public/index.html
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    });
-    */
-
     // Register custom error handler (should registered last be last)
     app.use(errorHandler);
 

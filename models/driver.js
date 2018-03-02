@@ -2,8 +2,13 @@ const mongoose = require('mongoose');
 
 const timestamps = require('../plugins/mongoose/timestamps');
 
-const TeamSchema = new mongoose.Schema({
+const DriverSchema = new mongoose.Schema({
   name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  code: {
     type: String,
     required: true,
     unique: true,
@@ -16,9 +21,9 @@ const TeamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-}, { collection: 'teams' })
+}, { collection: 'drivers' })
   .plugin(timestamps);
 
-const model = mongoose.model('Team', TeamSchema);
+const model = mongoose.model('Driver', DriverSchema);
 
 module.exports = model;
