@@ -6,7 +6,6 @@ const TeamSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   countryCode: {
     type: String,
@@ -17,7 +16,8 @@ const TeamSchema = new mongoose.Schema({
     required: true,
   },
 }, { collection: 'teams' })
-  .plugin(timestamps);
+  .plugin(timestamps)
+  .index({ name: 1, championship: 1 }, { unique: true });
 
 const model = mongoose.model('Team', TeamSchema);
 

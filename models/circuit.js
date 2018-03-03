@@ -6,7 +6,6 @@ const CircuitSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   countryCode: {
     type: String,
@@ -20,8 +19,13 @@ const CircuitSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  championship: {
+    type: String,
+    required: true,
+  },
 }, { collection: 'circuits' })
-  .plugin(timestamps);
+  .plugin(timestamps)
+  .index({ name: 1, championship: 1 }, { unique: true });
 
 const model = mongoose.model('Circuit', CircuitSchema);
 
