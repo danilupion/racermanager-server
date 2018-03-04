@@ -22,7 +22,7 @@ const USERS = [
     role: User.ROLES.user,
   },
 ];
-const F1_2018_SEASON = 'F1-2018';
+const SEASON_2018 = '2018';
 const F1_CHAMPIONSHIP = 'F1';
 const F1_2018_TEAMS = [
   {
@@ -209,7 +209,7 @@ const createCurrentF12018SeasonAsync = async () => {
   const to = new Date('2018-12-31T23:59:59.999Z');
 
   const data = {
-    name: F1_2018_SEASON,
+    name: SEASON_2018,
     championship: F1_CHAMPIONSHIP,
     from,
     to,

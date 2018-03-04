@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const timestamps = require('../plugins/mongoose/timestamps');
 
 const CircuitSchema = new mongoose.Schema({
@@ -24,6 +25,7 @@ const CircuitSchema = new mongoose.Schema({
     required: true,
   },
 }, { collection: 'circuits' })
+  .plugin(normalizeJSON)
   .plugin(timestamps)
   .index({ name: 1, championship: 1 }, { unique: true });
 

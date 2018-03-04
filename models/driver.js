@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const timestamps = require('../plugins/mongoose/timestamps');
 
 const DriverSchema = new mongoose.Schema({
@@ -21,6 +22,7 @@ const DriverSchema = new mongoose.Schema({
     required: true,
   },
 }, { collection: 'drivers' })
+  .plugin(normalizeJSON)
   .plugin(timestamps)
   .index({ name: 1, championship: 1 }, { unique: true })
   .index({ code: 1, championship: 1 }, { unique: true });

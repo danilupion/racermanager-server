@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const timestamps = require('../plugins/mongoose/timestamps');
 
 const GrandPrixSchema = new mongoose.Schema({
@@ -16,6 +17,7 @@ const GrandPrixSchema = new mongoose.Schema({
     required: true,
   },
 }, { collection: 'grandsPrix' })
+  .plugin(normalizeJSON)
   .plugin(timestamps)
   .index({ name: 1, championship: 1 }, { unique: true });
 

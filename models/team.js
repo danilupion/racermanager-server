@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const timestamps = require('../plugins/mongoose/timestamps');
 
 const TeamSchema = new mongoose.Schema({
@@ -16,6 +17,7 @@ const TeamSchema = new mongoose.Schema({
     required: true,
   },
 }, { collection: 'teams' })
+  .plugin(normalizeJSON)
   .plugin(timestamps)
   .index({ name: 1, championship: 1 }, { unique: true });
 

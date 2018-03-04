@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const email = require('../plugins/mongoose/email');
 const password = require('../plugins/mongoose/password');
 const timestamps = require('../plugins/mongoose/timestamps');
@@ -22,6 +23,7 @@ const UserSchema = new mongoose.Schema({
     default: ROLES.user,
   },
 }, { collection: 'users' })
+  .plugin(normalizeJSON)
   .plugin(email)
   .plugin(password)
   .plugin(timestamps);
