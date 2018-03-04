@@ -1,11 +1,11 @@
 const { Driver } = require('../../../models');
 const modelRestRouterFactory = require('../../../utils/modelRestRouterFactory');
-const { isAdminMiddlewaresArray: writeMiddlewares } = require('../../../plugins/express/isAdmin');
+const { isAdminMiddlewaresArray: middlewares } = require('../../../plugins/express/isAdmin');
 
 module.exports = modelRestRouterFactory({
   Model: Driver,
   listAllQuery: req => ({ championship: req.championship }),
-  writeMiddlewares,
+  middlewares,
   bodyModelTransformation: (model, req) => ({
     ...model,
     championship: req.championship,

@@ -7,6 +7,15 @@ const CHAMPIONSHIPS = require('../../../constants/championships');
 
 const router = new express.Router();
 
+router.param('championship', (req, res, next, championship) => {
+  if (!Object.values(CHAMPIONSHIPS).includes(championship)) {
+    return res.errorHandler(new NotFound());
+  }
+
+  req.championship = championship;
+  return next();
+});
+
 // Loop over files in this folder
 fs.readdirSync(__dirname).forEach((file) => {
   const fileName = path.basename(file, path.extname(file));
@@ -22,13 +31,5 @@ fs.readdirSync(__dirname).forEach((file) => {
   router.use(`/:championship/${fileName}`, require(`./${fileName}`));
 });
 
-router.param('championship', (req, res, next, championship) => {
-  if (!Object.values(CHAMPIONSHIPS).includes(championship)) {
-    return res.errorHandler(new NotFound());
-  }
-
-  req.championship = championship;
-  return next();
-});
 
 module.exports = router;
