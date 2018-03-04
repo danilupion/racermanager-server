@@ -4,7 +4,7 @@ const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const timestamps = require('../plugins/mongoose/timestamps');
 
 const ResultSchema = new mongoose.Schema({
-  _driver: {
+  driver: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Driver',
     required: true,
@@ -29,12 +29,12 @@ const ResultSchema = new mongoose.Schema({
   .plugin(normalizeJSON);
 
 const SeasonGrandPrixSchema = new mongoose.Schema({
-  _circuit: {
+  circuit: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Circuit',
     required: true,
   },
-  _grandPrix: {
+  grandPrix: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'GrandPrix',
     required: true,
@@ -65,7 +65,7 @@ const SeasonGrandPrixSchema = new mongoose.Schema({
   .plugin(timestamps);
 
 const TeamDriverSchema = new mongoose.Schema({
-  _driver: {
+  driver: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Driver',
     required: true,
@@ -78,7 +78,7 @@ const TeamDriverSchema = new mongoose.Schema({
   .plugin(normalizeJSON);
 
 const SeasonTeamSchema = new mongoose.Schema({
-  _team: {
+  team: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team',
     required: true,
