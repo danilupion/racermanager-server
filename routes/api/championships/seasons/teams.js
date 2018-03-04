@@ -80,7 +80,7 @@ router.delete('/:team', ...writeMiddlewares, async (req, res) => {
     req.team.remove();
 
     await req.season.save();
-    return res.send(req.season.teams[req.season.teams.length - 1]);
+    return res.send();
   } catch (err) {
     return res.errorHandler(err);
   }
