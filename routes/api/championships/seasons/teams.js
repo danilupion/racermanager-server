@@ -29,17 +29,23 @@ router.param('team', (req, res, next, teamId) => {
 router.post('/', ...writeMiddlewares, async (req, res) => {
   try {
     req.season.teams.push({
-      team: req.body.team,
+      team: req.body.teamId,
       name: req.body.name,
       countryCode: req.body.countryCode,
+      drivers: req.body.driverIds,
     });
 
     await req.season.save();
 
-    const teamIndex = req.season.teams.length - 1;
-    await req.season.populate(`teams.${teamIndex}.team`).execPopulate();
+    const team = req.season.teams[req.season.teams.length - 1].toJSON();
+    team.teamId = team.team;
+    delete team.team;
 
-    return res.send(req.season.teams[teamIndex]);
+    const teamDrivers = [...team.drivers];
+    delete team.drivers;
+    team.driverIds = teamDrivers;
+
+    return res.send(team);
   } catch (err) {
     return res.errorHandler(err);
   }
@@ -54,16 +60,22 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
 router.put('/:team', ...writeMiddlewares, async (req, res) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
-    req.team.team = req.body.team;
+    req.team.team = req.body.teamId;
     req.team.name = req.body.name;
     req.team.countryCode = req.body.countryCode;
+    req.team.drivers = req.body.driverIds;
 
     await req.season.save();
 
-    const teamIndex = req.season.teams.indexOf(req.team);
-    await req.season.populate(`teams.${teamIndex}.team`).execPopulate();
+    const team = req.team.toJSON();
+    team.teamId = team.team;
+    delete team.team;
 
-    return res.send(req.team);
+    const teamDrivers = [...team.drivers];
+    delete team.drivers;
+    team.driverIds = teamDrivers;
+
+    return res.send(team);
   } catch (err) {
     return res.errorHandler(err);
   }

@@ -9,7 +9,10 @@ const router = new express.Router();
 
 router.param('season', async (req, res, next, seasonName) => {
   try {
-    const season = await Season.findOne({ name: seasonName });
+    const season = await Season.findOne({
+      name: seasonName,
+      championship: req.championship,
+    });
 
     if (!season) {
       return res.errorHandler(new NotFound());
@@ -30,8 +33,36 @@ router.param('season', async (req, res, next, seasonName) => {
  */
 router.get('/:season', async (req, res) => {
   try {
-    await req.season.populate('teams.team').execPopulate();
-    return res.send(req.season);
+    await req.season.populate('drivers.driver').execPopulate();
+
+    const season = req.season.toJSON();
+
+    const drivers = [...season.drivers];
+    season.drivers = [];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const { id, driver, initialValue } of drivers) {
+      driver.driverId = driver.id;
+      delete driver.id;
+
+      season.drivers.push({
+        ...driver,
+        id,
+        initialValue,
+      });
+    }
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const team of season.teams) {
+      team.teamId = team.team;
+      delete team.team;
+
+      const teamDrivers = [...team.drivers];
+      delete team.drivers;
+      team.driverIds = teamDrivers;
+    }
+
+    return res.send(season);
   } catch (err) {
     return res.errorHandler(new InternalServerError(err));
   }

@@ -64,7 +64,7 @@ const SeasonGrandPrixSchema = new mongoose.Schema({
   .plugin(normalizeJSON)
   .plugin(timestamps);
 
-const TeamDriverSchema = new mongoose.Schema({
+const SeasonDriverSchema = new mongoose.Schema({
   driver: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Driver',
@@ -91,7 +91,10 @@ const SeasonTeamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  drivers: [TeamDriverSchema],
+  drivers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Driver',
+  }],
 })
   .plugin(normalizeJSON);
 
@@ -107,9 +110,26 @@ const SeasonSchema = new mongoose.Schema({
   },
   grandsPrix: [SeasonGrandPrixSchema],
   teams: [SeasonTeamSchema],
+  drivers: [SeasonDriverSchema],
 }, { collection: 'seasons' })
   .plugin(normalizeJSON)
   .plugin(timestamps);
+
+const onlyUnique = (value, index, self) => self.indexOf(value) === index;
+
+SeasonSchema.pre('save', function validate(next) {
+  const drivers = this.drivers.map(item => item.driver.toString());
+  const teams = this.teams.map(item => item.team.toString());
+
+  if (drivers.length > drivers.filter(onlyUnique).length) {
+    return next(new Error('Duplicate driver'));
+  }
+
+  if (teams.length > teams.filter(onlyUnique).length) {
+    return next(new Error('Duplicate team'));
+  }
+  return next();
+});
 
 const model = mongoose.model('Season', SeasonSchema);
 
