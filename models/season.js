@@ -39,15 +39,15 @@ const SeasonGrandPrixSchema = new mongoose.Schema({
     ref: 'GrandPrix',
     required: true,
   },
-  firstPracticeUTC: {
+  practice1UTC: {
     type: Date,
     required: true,
   },
-  secondPracticeUTC: {
+  practice2UTC: {
     type: Date,
     required: true,
   },
-  thirdPracticeUTC: {
+  practice3UTC: {
     type: Date,
     required: true,
   },

@@ -60,7 +60,6 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
  */
 router.put('/:driver', ...writeMiddlewares, async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
     req.driver.driver = req.body.driverId;
     req.driver.initialValue = req.body.initialValue;
 

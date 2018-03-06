@@ -33,7 +33,11 @@ router.param('season', async (req, res, next, seasonName) => {
  */
 router.get('/:season', async (req, res) => {
   try {
-    await req.season.populate('drivers.driver').execPopulate();
+    await Promise.all([
+      req.season.populate('drivers.driver').execPopulate(),
+      req.season.populate('grandsPrix.circuit').execPopulate(),
+      req.season.populate('grandsPrix.grandPrix').execPopulate(),
+    ]);
 
     const season = req.season.toJSON();
 
@@ -49,6 +53,7 @@ router.get('/:season', async (req, res) => {
         ...driver,
         id,
         initialValue,
+        value: initialValue, // TODO: calculate current value with results + fitnes + team factor
       });
     }
 
@@ -60,6 +65,26 @@ router.get('/:season', async (req, res) => {
       const teamDrivers = [...team.drivers];
       delete team.drivers;
       team.driverIds = teamDrivers;
+    }
+
+    const grandsPrix = [...season.grandsPrix];
+    season.grandsPrix = [];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of grandsPrix) {
+      const { grandPrix, circuit } = item;
+      delete item.grandPrix;
+
+      grandPrix.grandPrixId = grandPrix.id;
+      delete grandPrix.id;
+
+      circuit.circuitId = circuit.id;
+      delete circuit.id;
+
+      season.grandsPrix.push({
+        ...grandPrix,
+        ...item,
+      });
     }
 
     return res.send(season);

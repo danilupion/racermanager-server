@@ -59,7 +59,6 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
  */
 router.put('/:team', ...writeMiddlewares, async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
     req.team.team = req.body.teamId;
     req.team.name = req.body.name;
     req.team.countryCode = req.body.countryCode;
