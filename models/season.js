@@ -113,7 +113,8 @@ const SeasonSchema = new mongoose.Schema({
   drivers: [SeasonDriverSchema],
 }, { collection: 'seasons' })
   .plugin(normalizeJSON)
-  .plugin(timestamps);
+  .plugin(timestamps)
+  .index({ name: 1, championship: 1 }, { unique: true });
 
 const onlyUnique = (value, index, self) => self.indexOf(value) === index;
 

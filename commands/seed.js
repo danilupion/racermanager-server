@@ -210,7 +210,7 @@ const F1_2018_CIRCUITS = [
     longitude: 7.420556,
   },
   {
-    name: 'CircuitO Gilles Villeneuve',
+    name: 'Circuito Gilles Villeneuve',
     countryCode: 'CAN',
     latitude: 45.500578,
     longitude: -73.522461,

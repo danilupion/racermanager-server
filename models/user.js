@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
   },
   role: {
     type: String,
@@ -27,8 +28,6 @@ const UserSchema = new mongoose.Schema({
   .plugin(email)
   .plugin(password)
   .plugin(timestamps);
-
-// TODO Probably for production autoIndex should be disabled as suggested by mongoose documentation
 
 const model = mongoose.model('User', UserSchema);
 
