@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const email = require('../plugins/mongoose/email');
 const password = require('../plugins/mongoose/password');
 const timestamps = require('../plugins/mongoose/timestamps');
@@ -14,6 +15,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
   },
   role: {
     type: String,
@@ -22,11 +24,10 @@ const UserSchema = new mongoose.Schema({
     default: ROLES.user,
   },
 }, { collection: 'users' })
+  .plugin(normalizeJSON)
   .plugin(email)
   .plugin(password)
   .plugin(timestamps);
-
-// TODO Probably for production autoIndex should be disabled as suggested by mongoose documentation
 
 const model = mongoose.model('User', UserSchema);
 

@@ -6,6 +6,8 @@ const {
   Season,
   Team,
   Driver,
+  Circuit,
+  GrandPrix,
 } = require('../models');
 
 const USERS = [
@@ -22,7 +24,7 @@ const USERS = [
     role: User.ROLES.user,
   },
 ];
-const F1_2018_SEASON = 'F1-2018';
+const SEASON_2018 = '2018';
 const F1_CHAMPIONSHIP = 'F1';
 const F1_2018_TEAMS = [
   {
@@ -170,6 +172,92 @@ const F1_2018_DRIVERS = [
   },
 ];
 
+const F1_2018_CIRCUITS = [
+  {
+    name: 'Circuito de Albert Park',
+    countryCode: 'AUS',
+    latitude: -37.849722,
+    longitude: 144.968333,
+  },
+  {
+    name: 'Circuito Internacional de Baréin',
+    countryCode: 'BHR',
+    latitude: 26.0325,
+    longitude: 50.510556,
+  },
+  {
+    name: 'Circuito Internacional de Shanghái',
+    countryCode: 'CHN',
+    latitude: 31.338889,
+    longitude: 121.219722,
+  },
+  {
+    name: 'Circuito Urbano de Bakú',
+    countryCode: 'AZE',
+    latitude: 40.3725,
+    longitude: 49.853333,
+  },
+  {
+    name: 'Circuito de Barcelona-Cataluña',
+    countryCode: 'ESP',
+    latitude: 41.57,
+    longitude: 2.261111,
+  },
+  {
+    name: 'Circuito de Mónaco',
+    countryCode: 'MCO',
+    latitude: 43.734722,
+    longitude: 7.420556,
+  },
+  {
+    name: 'Circuito Gilles Villeneuve',
+    countryCode: 'CAN',
+    latitude: 45.500578,
+    longitude: -73.522461,
+  },
+  {
+    name: 'Circuito Paul Ricard',
+    countryCode: 'FRA',
+    latitude: 43.250556,
+    longitude: 5.791667,
+  },
+];
+
+const F1_2018_GRANDS_PRIX = [
+  {
+    name: 'Australia',
+    countryCode: 'AUS',
+  },
+  {
+    name: 'Baréin',
+    countryCode: 'BHR',
+  },
+  {
+    name: 'China',
+    countryCode: 'CHN',
+  },
+  {
+    name: 'Azerbaiyán',
+    countryCode: 'AZE',
+  },
+  {
+    name: 'España',
+    countryCode: 'ESP',
+  },
+  {
+    name: 'Mónaco',
+    countryCode: 'MCO',
+  },
+  {
+    name: 'Canadá',
+    countryCode: 'CAN',
+  },
+  {
+    name: 'Francia',
+    countryCode: 'FRA',
+  },
+];
+
 const createIfNotPresent = async (Model, data, {
   saveData = data,
   validateBeforeSave = true,
@@ -205,14 +293,9 @@ const createUsersAsync = async () => {
 };
 
 const createCurrentF12018SeasonAsync = async () => {
-  const from = new Date('2018-01-01T00:00:00.000Z');
-  const to = new Date('2018-12-31T23:59:59.999Z');
-
   const data = {
-    name: F1_2018_SEASON,
+    name: SEASON_2018,
     championship: F1_CHAMPIONSHIP,
-    from,
-    to,
   };
 
   const created = await createIfNotPresent(Season, data);
@@ -256,6 +339,42 @@ const createF1DriversAsync = async () => {
   );
 };
 
+const createF1CircuitsAsync = async () => {
+  await Promise.all(
+    F1_2018_CIRCUITS.map(
+      async (circuit) => {
+        const created = await createIfNotPresent(
+          Circuit,
+          {
+            ...circuit,
+            championship: F1_CHAMPIONSHIP,
+          }
+        );
+
+        console.log(`Circuit ${circuit.name} was ${created ? 'created' : 'skipped'}`);
+      }
+    )
+  );
+};
+
+const createF1GrandsPrixAsync = async () => {
+  await Promise.all(
+    F1_2018_GRANDS_PRIX.map(
+      async (grandPrix) => {
+        const created = await createIfNotPresent(
+          GrandPrix,
+          {
+            ...grandPrix,
+            championship: F1_CHAMPIONSHIP,
+          }
+        );
+
+        console.log(`Grand Prix ${grandPrix.name} was ${created ? 'created' : 'skipped'}`);
+      }
+    )
+  );
+};
+
 const seedDatabaseAsync = async () => {
   try {
     await connectMongoose();
@@ -265,6 +384,8 @@ const seedDatabaseAsync = async () => {
       createCurrentF12018SeasonAsync(),
       createF1TeamsAsync(),
       createF1DriversAsync(),
+      createF1CircuitsAsync(),
+      createF1GrandsPrixAsync(),
     ]);
   } catch (err) {
     console.log(err.message);

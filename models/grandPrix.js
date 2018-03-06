@@ -3,15 +3,10 @@ const mongoose = require('mongoose');
 const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const timestamps = require('../plugins/mongoose/timestamps');
 
-const DriverSchema = new mongoose.Schema({
+const GrandPrixSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-  },
-  code: {
-    type: String,
-    required: true,
-    unique: true,
   },
   countryCode: {
     type: String,
@@ -21,13 +16,11 @@ const DriverSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-}, { collection: 'drivers' })
+}, { collection: 'grandsPrix' })
   .plugin(normalizeJSON)
   .plugin(timestamps)
-  .index({ name: 1, championship: 1 }, { unique: true })
-  .index({ code: 1, championship: 1 }, { unique: true });
+  .index({ name: 1, championship: 1 }, { unique: true });
 
-
-const model = mongoose.model('Driver', DriverSchema);
+const model = mongoose.model('GrandPrix', GrandPrixSchema);
 
 module.exports = model;

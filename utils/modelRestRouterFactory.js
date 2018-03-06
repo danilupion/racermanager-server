@@ -14,6 +14,7 @@ module.exports = ({
   middlewares = [],
   listAllRoute = true,
   listAllPath = '/',
+  listAllQuery = () => ({}),
   listMiddlewares = [],
   writeMiddlewares = [],
   createRoute = true,
@@ -38,7 +39,7 @@ module.exports = ({
   if (listAllRoute) {
     router.get(listAllPath, ...listMiddlewares, async (req, res) => {
       try {
-        return res.send(await Model.find());
+        return res.send(await Model.find(listAllQuery(req)));
       } catch (err) {
         return res.errorHandler(err);
       }
@@ -51,7 +52,8 @@ module.exports = ({
         return res.send(
           await Model.create(
             bodyModelTransformation(
-              modelFromReq(req, Model)
+              modelFromReq(req, Model),
+              req,
             )
           )
         );
@@ -87,7 +89,8 @@ module.exports = ({
             _id: req.params[updateModelId],
           },
           bodyModelTransformation(
-            modelFromReq(req, Model)
+            modelFromReq(req, Model),
+            req,
           ),
           {
             new: true,
