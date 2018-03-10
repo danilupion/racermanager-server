@@ -34,6 +34,7 @@ router.param('season', async (req, res, next, seasonName) => {
 router.get('/:season', async (req, res) => {
   try {
     await Promise.all([
+      req.season.populate('teams.team').execPopulate(),
       req.season.populate('drivers.driver').execPopulate(),
       req.season.populate('grandsPrix.circuit').execPopulate(),
       req.season.populate('grandsPrix.grandPrix').execPopulate(),
@@ -59,7 +60,8 @@ router.get('/:season', async (req, res) => {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const team of season.teams) {
-      team.teamId = team.team;
+      team.teamId = team.team.id;
+      team.code = team.team.name;
       delete team.team;
 
       const teamDrivers = [...team.drivers];
