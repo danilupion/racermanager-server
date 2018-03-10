@@ -54,7 +54,9 @@ router.get('/:season', async (req, res) => {
         ...driver,
         id,
         initialValue,
-        value: initialValue, // TODO: calculate current value with results + fitnes + team factor
+        points: 0, // TODO: Calculate points
+        fitness: 0, // TODO: Calculate fitness
+        value: initialValue, // TODO: calculate current value with results + fitness + team factor
       });
     }
 

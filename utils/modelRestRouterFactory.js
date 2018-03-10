@@ -39,7 +39,8 @@ module.exports = ({
   if (listAllRoute) {
     router.get(listAllPath, ...listMiddlewares, async (req, res) => {
       try {
-        return res.send(await Model.find(listAllQuery(req)));
+        console.log(await listAllQuery(req));
+        return res.send(await Model.find(await listAllQuery(req)));
       } catch (err) {
         return res.errorHandler(err);
       }
@@ -51,7 +52,7 @@ module.exports = ({
       try {
         return res.send(
           await Model.create(
-            bodyModelTransformation(
+            await bodyModelTransformation(
               modelFromReq(req, Model),
               req,
             )
@@ -88,7 +89,7 @@ module.exports = ({
           {
             _id: req.params[updateModelId],
           },
-          bodyModelTransformation(
+          await bodyModelTransformation(
             modelFromReq(req, Model),
             req,
           ),
