@@ -356,7 +356,7 @@ const F1_2018_GRANDS_PRIX = [
   },
   {
     name: 'Italia',
-    countryCode: 'iITA',
+    countryCode: 'ITA',
   },
   {
     name: 'Singapur',
@@ -435,6 +435,22 @@ const createCurrentF12018SeasonAsync = async () => {
     (accumulated, team) => ({
       ...accumulated,
       [team.name]: team,
+    }),
+    {}
+  );
+
+  const circuits = (await Circuit.find().exec()).reduce(
+    (accumulated, circuit) => ({
+      ...accumulated,
+      [circuit.countryCode]: circuit,
+    }),
+    {}
+  );
+
+  const grandsPrix = (await GrandPrix.find().exec()).reduce(
+    (accumulated, grandPrix) => ({
+      ...accumulated,
+      [grandPrix.countryCode]: grandPrix,
     }),
     {}
   );
@@ -592,6 +608,177 @@ const createCurrentF12018SeasonAsync = async () => {
     },
   ];
 
+  const seasonGrandsPrix = [
+    {
+      code: 'AUS',
+      practice1UTC: '2018-03-23T11:00:00.000Z',
+      practice2UTC: '2018-03-23T15:00:00.000Z',
+      practice3UTC: '2018-03-24T13:00:00.000Z',
+      qualifyingUTC: '2018-03-24T16:00:00.000Z',
+      raceUTC: '2018-03-25T14:10:00.000Z',
+    },
+    {
+      code: 'BHR',
+      practice1UTC: '2018-04-06T12:00:00.000Z',
+      practice2UTC: '2018-04-06T16:00:00.000Z',
+      practice3UTC: '2018-04-07T13:00:00.000Z',
+      qualifyingUTC: '2018-04-07T16:00:00.000Z',
+      raceUTC: '2018-04-08T16:10:00.000Z',
+    },
+    {
+      code: 'CHN',
+      practice1UTC: '2018-04-13T08:00:00.000Z',
+      practice2UTC: '2018-04-13T12:00:00.000Z',
+      practice3UTC: '2018-04-14T09:00:00.000Z',
+      qualifyingUTC: '2018-04-14T12:00:00.000Z',
+      raceUTC: '2018-04-15T12:10:00.000Z',
+    },
+    {
+      code: 'AZE',
+      practice1UTC: '2018-04-27T11:00:00.000Z',
+      practice2UTC: '2018-04-27T15:00:00.000Z',
+      practice3UTC: '2018-04-28T12:00:00.000Z',
+      qualifyingUTC: '2018-04-28T15:00:00.000Z',
+      raceUTC: '2018-04-29T14:10:00.000Z',
+    },
+    {
+      code: 'ESP',
+      practice1UTC: '2018-05-11T09:00:00.000Z',
+      practice2UTC: '2018-05-11T13:00:00.000Z',
+      practice3UTC: '2018-05-12T10:00:00.000Z',
+      qualifyingUTC: '2018-05-12T13:00:00.000Z',
+      raceUTC: '2018-05-13T13:10:00.000Z',
+    },
+    {
+      code: 'MCO',
+      practice1UTC: '2018-05-24T09:00:00.000Z',
+      practice2UTC: '2018-05-24T13:00:00.000Z',
+      practice3UTC: '2018-05-26T10:00:00.000Z',
+      qualifyingUTC: '2018-05-26T13:00:00.000Z',
+      raceUTC: '2018-05-27T13:10:00.000Z',
+    },
+    {
+      code: 'CAN',
+      practice1UTC: '2018-06-08T08:00:00.000Z',
+      practice2UTC: '2018-06-08T12:00:00.000Z',
+      practice3UTC: '2018-06-09T09:00:00.000Z',
+      qualifyingUTC: '2018-06-09T12:00:00.000Z',
+      raceUTC: '2018-06-10T12:10:00.000Z',
+    },
+    {
+      code: 'FRA',
+      practice1UTC: '2018-06-22T10:00:00.000Z',
+      practice2UTC: '2018-06-22T14:00:00.000Z',
+      practice3UTC: '2018-06-23T11:00:00.000Z',
+      qualifyingUTC: '2018-06-23T14:00:00.000Z',
+      raceUTC: '2018-06-24T14:10:00.000Z',
+    },
+    {
+      code: 'AUT',
+      practice1UTC: '2018-06-29T09:00:00.000Z',
+      practice2UTC: '2018-06-29T13:00:00.000Z',
+      practice3UTC: '2018-06-30T10:00:00.000Z',
+      qualifyingUTC: '2018-06-30T13:00:00.000Z',
+      raceUTC: '2018-07-01T13:10:00.000Z',
+    },
+    {
+      code: 'GBR',
+      practice1UTC: '2018-07-06T08:00:00.000Z',
+      practice2UTC: '2018-07-06T12:00:00.000Z',
+      practice3UTC: '2018-07-07T09:00:00.000Z',
+      qualifyingUTC: '2018-07-07T12:00:00.000Z',
+      raceUTC: '2018-07-08T12:10:00.000Z',
+    },
+    {
+      code: 'DEU',
+      practice1UTC: '2018-07-20T09:00:00.000Z',
+      practice2UTC: '2018-07-20T13:00:00.000Z',
+      practice3UTC: '2018-07-21T10:00:00.000Z',
+      qualifyingUTC: '2018-07-21T13:00:00.000Z',
+      raceUTC: '2018-07-22T13:10:00.000Z',
+    },
+    {
+      code: 'HUN',
+      practice1UTC: '2018-07-27T09:00:00.000Z',
+      practice2UTC: '2018-07-27T13:00:00.000Z',
+      practice3UTC: '2018-07-28T10:00:00.000Z',
+      qualifyingUTC: '2018-07-28T13:00:00.000Z',
+      raceUTC: '2018-07-29T13:10:00.000Z',
+    },
+    {
+      code: 'BEL',
+      practice1UTC: '2018-08-24T09:00:00.000Z',
+      practice2UTC: '2018-08-24T13:00:00.000Z',
+      practice3UTC: '2018-08-25T10:00:00.000Z',
+      qualifyingUTC: '2018-08-25T13:00:00.000Z',
+      raceUTC: '2018-08-26T13:10:00.000Z',
+    },
+    {
+      code: 'ITA',
+      practice1UTC: '2018-08-31T09:00:00.000Z',
+      practice2UTC: '2018-08-31T13:00:00.000Z',
+      practice3UTC: '2018-09-01T10:00:00.000Z',
+      qualifyingUTC: '2018-09-01T13:00:00.000Z',
+      raceUTC: '2018-09-02T13:10:00.000Z',
+    },
+    {
+      code: 'SGP',
+      practice1UTC: '2018-09-14T14:30:00.000Z',
+      practice2UTC: '2018-09-14T18:30:00.000Z',
+      practice3UTC: '2018-09-15T16:00:00.000Z',
+      qualifyingUTC: '2018-09-15T19:00:00.000Z',
+      raceUTC: '2018-09-16T18:10:00.000Z',
+    },
+    {
+      code: 'RUS',
+      practice1UTC: '2018-09-28T09:00:00.000Z',
+      practice2UTC: '2018-09-28T13:00:00.000Z',
+      practice3UTC: '2018-09-29T10:00:00.000Z',
+      qualifyingUTC: '2018-09-29T13:00:00.000Z',
+      raceUTC: '2018-09-30T12:10:00.000Z',
+    },
+    {
+      code: 'JAP',
+      practice1UTC: '2018-10-05T08:00:00.000Z',
+      practice2UTC: '2018-10-05T12:00:00.000Z',
+      practice3UTC: '2018-10-06T10:00:00.000Z',
+      qualifyingUTC: '2018-10-06T13:00:00.000Z',
+      raceUTC: '2018-10-07T12:10:00.000Z',
+    },
+    {
+      code: 'USA',
+      practice1UTC: '2018-10-19T08:00:00.000Z',
+      practice2UTC: '2018-10-19T12:00:00.000Z',
+      practice3UTC: '2018-10-20T10:00:00.000Z',
+      qualifyingUTC: '2018-10-20T13:00:00.000Z',
+      raceUTC: '2018-10-21T12:10:00.000Z',
+    },
+    {
+      code: 'MEX',
+      practice1UTC: '2018-10-26T08:00:00.000Z',
+      practice2UTC: '2018-10-26T12:00:00.000Z',
+      practice3UTC: '2018-10-27T08:00:00.000Z',
+      qualifyingUTC: '2018-10-27T11:00:00.000Z',
+      raceUTC: '2018-10-28T12:10:00.000Z',
+    },
+    {
+      code: 'BRA',
+      practice1UTC: '2018-11-09T10:00:00.000Z',
+      practice2UTC: '2018-11-09T14:00:00.000Z',
+      practice3UTC: '2018-11-10T11:00:00.000Z',
+      qualifyingUTC: '2018-11-10T14:00:00.000Z',
+      raceUTC: '2018-11-11T14:10:00.000Z',
+    },
+    {
+      code: 'ARE',
+      practice1UTC: '2018-11-23T12:00:00.000Z',
+      practice2UTC: '2018-11-23T16:00:00.000Z',
+      practice3UTC: '2018-11-24T13:00:00.000Z',
+      qualifyingUTC: '2018-11-24T16:00:00.000Z',
+      raceUTC: '2018-11-25T16:10:00.000Z',
+    },
+  ];
+
   const data = {
     name: SEASON_2018,
     championship: F1_CHAMPIONSHIP,
@@ -599,6 +786,11 @@ const createCurrentF12018SeasonAsync = async () => {
     teams: seasonTeams.map(team => ({
       ...team,
       drivers: team.drivers.map(driver => driver.driver),
+    })),
+    grandsPrix: seasonGrandsPrix.map(grandPrix => ({
+      ...grandPrix,
+      circuit: circuits[grandPrix.code],
+      grandPrix: grandsPrix[grandPrix.code],
     })),
   };
 

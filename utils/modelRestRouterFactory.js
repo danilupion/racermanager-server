@@ -39,7 +39,6 @@ module.exports = ({
   if (listAllRoute) {
     router.get(listAllPath, ...listMiddlewares, async (req, res) => {
       try {
-        console.log(await listAllQuery(req));
         return res.send(await Model.find(await listAllQuery(req)));
       } catch (err) {
         return res.errorHandler(err);
