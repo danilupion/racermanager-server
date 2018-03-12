@@ -2,8 +2,40 @@ const express = require('express');
 
 const { InternalServerError } = require('../../error/httpStatusCodeErrors');
 const { User } = require('../../models');
+const { isAdminMiddlewaresArray } = require('../../plugins/express/isAdmin');
 
 const router = new express.Router();
+
+/**
+ * Route: /api/users
+ * Method: GET
+ *
+ * Retrieves the list of all users
+ */
+router.get('/', isAdminMiddlewaresArray, async (req, res) => {
+  try {
+    res.send(
+      (await User.find().exec())
+        .map(user => user.toJSON({
+          transform: (doc, json) => {
+            const {
+              __v,
+              _id,
+              password,
+              ...values
+            } = json;
+
+            return {
+              id: _id,
+              ...values,
+            };
+          },
+        })),
+    );
+  } catch (err) {
+    return res.errorHandler(err);
+  }
+});
 
 /**
  * Route: /api/users

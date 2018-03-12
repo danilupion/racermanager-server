@@ -32,6 +32,18 @@ const LeagueSchema = new mongoose.Schema({
   .plugin(timestamps)
   .index({ name: 1, season: 1 }, { unique: true });
 
+const onlyUnique = (value, index, self) => self.indexOf(value) === index;
+
+LeagueSchema.pre('save', function validate(next) {
+  const users = this.users.map(item => item.user.toString());
+
+  if (users.length > users.filter(onlyUnique).length) {
+    return next(new Error('Duplicate user'));
+  }
+
+  return next();
+});
+
 const model = mongoose.model('League', LeagueSchema);
 
 module.exports = model;
