@@ -1,4 +1,6 @@
 const path = require('path');
+const cluster = require('cluster');
+const os = require('os');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -47,4 +49,16 @@ const createServerAsync = async () => {
   }
 };
 
-createServerAsync();
+if (cluster.isMaster) {
+  // Create a worker for each CPU
+  for (let i = 0; i < os.cpus().length; i += 1) {
+    cluster.fork();
+  }
+} else {
+  createServerAsync();
+}
+
+// Respawn dying workers
+cluster.on('exit', () => {
+  cluster.fork();
+});

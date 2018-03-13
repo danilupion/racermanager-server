@@ -46,7 +46,7 @@ router.param('league', async (req, res, next, leagueId) => {
  *
  * Retrieves the list of leagues
  */
-router.get('/', isAdminMiddlewaresArray, async (req, res) => {
+router.get('/', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     const leagues = await League.find({
       season: {
@@ -73,7 +73,7 @@ router.get('/', isAdminMiddlewaresArray, async (req, res) => {
  *
  * Creates a league
  */
-router.post('/', isAdminMiddlewaresArray, async (req, res) => {
+router.post('/', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     return res.send(
       leagueJsonTransformation(
@@ -94,7 +94,7 @@ router.post('/', isAdminMiddlewaresArray, async (req, res) => {
  *
  * Updates a league
  */
-router.put('/:league', isAdminMiddlewaresArray, async (req, res) => {
+router.put('/:league', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     req.league.name = req.body.name;
     req.league.save();
@@ -112,7 +112,7 @@ router.put('/:league', isAdminMiddlewaresArray, async (req, res) => {
  *
  * Deletes a league
  */
-router.delete('/:league', isAdminMiddlewaresArray, async (req, res) => {
+router.delete('/:league', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     await req.league.remove();
 
@@ -128,7 +128,7 @@ router.delete('/:league', isAdminMiddlewaresArray, async (req, res) => {
  *
  * Adds a user to a league
  */
-router.post('/:league/users', isAdminMiddlewaresArray, async (req, res) => {
+router.post('/:league/users', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     req.league.users.push({
       user: req.body.user,
@@ -153,7 +153,7 @@ router.post('/:league/users', isAdminMiddlewaresArray, async (req, res) => {
  *
  * Deletes a user from a league
  */
-router.delete('/:league/users/:user', isAdminMiddlewaresArray, async (req, res) => {
+router.delete('/:league/users/:user', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     const user = req.league.users.find(candidate => candidate.user.equals(req.params.user));
 
