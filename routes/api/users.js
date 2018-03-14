@@ -14,7 +14,7 @@ const router = new express.Router();
  */
 router.get('/', isAdminMiddlewaresArray, async (req, res) => {
   try {
-    res.send(
+    return res.send(
       (await User.find().exec())
         .map(user => user.toJSON({
           transform: (doc, json) => {
