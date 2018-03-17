@@ -45,7 +45,7 @@ const F1_2018_TEAMS = [
   },
   {
     name: 'Mercedes',
-    countryCode: 'GER',
+    countryCode: 'DEU',
   },
   {
     name: 'Red Bull',
@@ -77,7 +77,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Sebastina Vettel',
-    countryCode: 'GER',
+    countryCode: 'DEU',
     code: 'VET',
   },
   {
@@ -97,7 +97,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Max Verstappen',
-    countryCode: 'NED',
+    countryCode: 'NLD',
     code: 'VER',
   },
   {
@@ -117,7 +117,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Nico Hulkenberg',
-    countryCode: 'GER',
+    countryCode: 'DEU',
     code: 'HUL',
   },
   {
@@ -132,7 +132,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Kevin Magnussen',
-    countryCode: 'DEN',
+    countryCode: 'DNK',
     code: 'MAG',
   },
   {
