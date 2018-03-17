@@ -58,6 +58,16 @@ if (cluster.isMaster) {
   createServerAsync();
 }
 
+process.on('unhandledRejection', (reason, p) => {
+  // eslint-disable-next-line no-console
+  console.error('Unhandled Rejection at:', p, 'reason:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  // eslint-disable-next-line no-console
+  console.error('Caught exception:', err.stack, err);
+});
+
 // Respawn dying workers
 cluster.on('exit', () => {
   cluster.fork();
