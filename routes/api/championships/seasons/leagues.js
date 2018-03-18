@@ -5,6 +5,17 @@ const jwtAuth = require('../../../../plugins/express/jwt-auth');
 
 const router = new express.Router();
 
+const userJsonTransformation = json => ({
+  money: json.money,
+  userId: json.user,
+  pilots: [null, null],
+});
+
+const leagueJsonTransformation = json => ({
+  ...json,
+  users: json.users.map(userJsonTransformation),
+});
+
 /**
  * Route: /api/championships/:championship/seasons/:season/leagues
  * Method: GET
@@ -14,11 +25,13 @@ const router = new express.Router();
 router.get('/', jwtAuth, async (req, res) => {
   try {
     return res.send(
-      await League.find({
+      (await League.find({
         // eslint-disable-next-line no-underscore-dangle
         season: req.season._id,
         'users.user': req.user.id,
-      })
+      }))
+        .map(league => league.toJSON())
+        .map(leagueJsonTransformation)
     );
   } catch (err) {
     return res.errorHandler(err);
