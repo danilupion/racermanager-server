@@ -64,6 +64,7 @@ router.get('/:season', async (req, res) => {
     for (const team of season.teams) {
       team.teamId = team.team.id;
       team.code = team.team.name;
+      team.bonus = 0; // TODO: Calculate team bonus
       delete team.team;
 
       const teamDrivers = [...team.drivers];

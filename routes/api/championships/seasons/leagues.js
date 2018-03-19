@@ -9,7 +9,7 @@ const userJsonTransformation = json => ({
   money: json.money,
   userId: json.user.id,
   username: json.user.username,
-  pilots: [null, null],
+  drivers: [null, null],
 });
 
 const leagueJsonTransformation = json => ({
