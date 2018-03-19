@@ -7,7 +7,8 @@ const router = new express.Router();
 
 const userJsonTransformation = json => ({
   money: json.money,
-  userId: json.user,
+  userId: json.user.id,
+  username: json.user.username,
   pilots: [null, null],
 });
 
@@ -29,7 +30,7 @@ router.get('/', jwtAuth, async (req, res) => {
         // eslint-disable-next-line no-underscore-dangle
         season: req.season._id,
         'users.user': req.user.id,
-      }))
+      }).populate('users.user'))
         .map(league => league.toJSON())
         .map(leagueJsonTransformation)
     );
