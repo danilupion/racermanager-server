@@ -42,6 +42,8 @@ router.get('/:season', async (req, res) => {
 
     const season = req.season.toJSON();
 
+    season.currentTradePercentageFee = 0.05; // TODO: Calculate properly
+
     const drivers = [...season.drivers];
     season.drivers = [];
 
@@ -64,6 +66,7 @@ router.get('/:season', async (req, res) => {
     for (const team of season.teams) {
       team.teamId = team.team.id;
       team.code = team.team.name;
+      team.championship = team.team.championship;
       team.bonus = 0; // TODO: Calculate team bonus
       delete team.team;
 
