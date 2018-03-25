@@ -30,7 +30,7 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
   try {
     req.season.drivers.push({
       driver: req.body.driverId,
-      initialValue: req.body.initialValue,
+      initialPrice: req.body.initialPrice,
     });
 
     await req.season.save();
@@ -45,7 +45,7 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
     return res.send({
       ...item.driver,
       id: item.id,
-      initialValue: item.initialValue,
+      initialPrice: item.initialPrice,
     });
   } catch (err) {
     return res.errorHandler(err);
@@ -61,7 +61,7 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
 router.put('/:driver', ...writeMiddlewares, async (req, res) => {
   try {
     req.driver.driver = req.body.driverId;
-    req.driver.initialValue = req.body.initialValue;
+    req.driver.initialPrice = req.body.initialPrice;
 
     await req.season.save();
 
@@ -75,7 +75,7 @@ router.put('/:driver', ...writeMiddlewares, async (req, res) => {
     return res.send({
       ...item.driver,
       id: item.id,
-      initialValue: item.initialValue,
+      initialPrice: item.initialPrice,
     });
   } catch (err) {
     return res.errorHandler(err);

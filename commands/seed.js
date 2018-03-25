@@ -463,11 +463,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.HAM,
-          initialValue: 75,
+          initialPrice: 75,
         },
         {
           driver: drivers.BOT,
-          initialValue: 65,
+          initialPrice: 65,
         },
       ],
     },
@@ -478,11 +478,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.VET,
-          initialValue: 70,
+          initialPrice: 70,
         },
         {
           driver: drivers.RAI,
-          initialValue: 60,
+          initialPrice: 60,
         },
       ],
     },
@@ -493,11 +493,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.RIC,
-          initialValue: 55,
+          initialPrice: 55,
         },
         {
           driver: drivers.VER,
-          initialValue: 50,
+          initialPrice: 50,
         },
       ],
     },
@@ -508,11 +508,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.PER,
-          initialValue: 50,
+          initialPrice: 50,
         },
         {
           driver: drivers.OCO,
-          initialValue: 40,
+          initialPrice: 40,
         },
       ],
     },
@@ -523,11 +523,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.STR,
-          initialValue: 50,
+          initialPrice: 50,
         },
         {
           driver: drivers.SIR,
-          initialValue: 40,
+          initialPrice: 40,
         },
       ],
     },
@@ -538,11 +538,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.HUL,
-          initialValue: 50,
+          initialPrice: 50,
         },
         {
           driver: drivers.SAI,
-          initialValue: 45,
+          initialPrice: 45,
         },
       ],
     },
@@ -553,11 +553,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.GAS,
-          initialValue: 40,
+          initialPrice: 40,
         },
         {
           driver: drivers.HAR,
-          initialValue: 35,
+          initialPrice: 35,
         },
       ],
     },
@@ -568,11 +568,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.GRO,
-          initialValue: 40,
+          initialPrice: 40,
         },
         {
           driver: drivers.MAG,
-          initialValue: 35,
+          initialPrice: 35,
         },
       ],
     },
@@ -583,11 +583,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.ALO,
-          initialValue: 40,
+          initialPrice: 40,
         },
         {
           driver: drivers.VAN,
-          initialValue: 35,
+          initialPrice: 35,
         },
       ],
     },
@@ -598,11 +598,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.ERI,
-          initialValue: 30,
+          initialPrice: 30,
         },
         {
           driver: drivers.LEC,
-          initialValue: 25,
+          initialPrice: 25,
         },
       ],
     },

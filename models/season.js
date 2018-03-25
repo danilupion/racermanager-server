@@ -70,7 +70,7 @@ const SeasonDriverSchema = new mongoose.Schema({
     ref: 'Driver',
     required: true,
   },
-  initialValue: {
+  initialPrice: {
     type: Number,
     required: true,
   },

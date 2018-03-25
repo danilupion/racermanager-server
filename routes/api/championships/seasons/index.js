@@ -48,17 +48,17 @@ router.get('/:season', async (req, res) => {
     season.drivers = [];
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const { id, driver, initialValue } of drivers) {
+    for (const { id, driver, initialPrice } of drivers) {
       driver.driverId = driver.id;
       delete driver.id;
 
       season.drivers.push({
         ...driver,
         id,
-        initialValue,
+        initialPrice,
         points: 0, // TODO: Calculate points
         fitness: 0, // TODO: Calculate fitness
-        value: initialValue, // TODO: calculate current value with results + fitness + team factor
+        price: initialPrice, // TODO: calculate current value with results + fitness + team factor
       });
     }
 
