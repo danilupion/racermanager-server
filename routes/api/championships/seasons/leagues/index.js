@@ -22,7 +22,9 @@ const leagueJsonTransformation = json => ({
   users: json.users.map(userJsonTransformation),
 });
 
-router.param('league', jwtAuth, async (req, res, next, leagueId) => {
+router.use('*', jwtAuth);
+
+router.param('league', async (req, res, next, leagueId) => {
   try {
     const league = await League.findOne({
       _id: leagueId,
@@ -48,7 +50,7 @@ router.param('league', jwtAuth, async (req, res, next, leagueId) => {
  *
  * Retrieves the list of leagues the user belongs to
  */
-router.get('/', jwtAuth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     return res.send(
       (await League.find({
