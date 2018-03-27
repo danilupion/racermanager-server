@@ -2,7 +2,6 @@ const path = require('path');
 const cluster = require('cluster');
 const os = require('os');
 const express = require('express');
-const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const passport = require('passport');
 
@@ -24,7 +23,7 @@ const createServerAsync = async () => {
     app.use(passport.initialize());
 
     // Configure body parser to accept json
-    app.use(bodyParser.json());
+    app.use(express.json());
 
     // Register handler for static assets
     app.use(express.static(path.resolve(__dirname, 'public')));
