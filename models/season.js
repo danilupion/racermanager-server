@@ -112,9 +112,88 @@ const SeasonSchema = new mongoose.Schema({
   teams: [SeasonTeamSchema],
   drivers: [SeasonDriverSchema],
 }, { collection: 'seasons' })
-  .plugin(normalizeJSON)
   .plugin(timestamps)
   .index({ name: 1, championship: 1 }, { unique: true });
+
+SeasonSchema.set('toJSON', {
+  transform: async (doc, json) => {
+    /* eslint-disable no-param-reassign, no-underscore-dangle */
+    json.id = json._id;
+    delete json._id;
+    delete json.__v;
+    /* eslint-enable no-underscore-dangle */
+
+    await Promise.all([
+      doc.populate('teams.team').execPopulate(),
+      doc.populate('drivers.driver').execPopulate(),
+      doc.populate('grandsPrix.circuit').execPopulate(),
+      doc.populate('grandsPrix.grandPrix').execPopulate(),
+    ]);
+
+    json.drivers = [];
+    json.teams = [];
+    json.grandsPrix = [];
+
+    json.currentTradePercentageFee = 0.05; // TODO: Calculate properly
+
+    const drivers = [...doc.drivers];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const driverDoc of drivers) {
+      const { id, driver: driverJson, initialPrice } = driverDoc.toJSON();
+      driverJson.driverId = driverJson.id;
+      delete driverJson.id;
+
+      json.drivers.push({
+        ...driverJson,
+        id,
+        initialPrice,
+        points: 0, // TODO: Calculate points
+        fitness: 0, // TODO: Calculate fitness
+        price: initialPrice, // TODO: calculate current value with results + fitness + team factor
+      });
+    }
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const teamDoc of doc.teams) {
+      const teamJson = teamDoc.toJSON();
+      teamJson.teamId = teamJson.team.id;
+      teamJson.code = teamJson.team.name;
+      teamJson.championship = teamJson.team.championship;
+      teamJson.bonus = 0; // TODO: Calculate team bonus
+      delete teamJson.team;
+
+      const teamDrivers = [...teamJson.drivers];
+      delete teamJson.drivers;
+      teamJson.driverIds = teamDrivers;
+
+      json.teams.push(teamJson);
+    }
+
+    const grandsPrix = [...doc.grandsPrix];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const grandPrixDoc of grandsPrix) {
+      const grandPrixJson = grandPrixDoc.toJSON();
+      const { grandPrix, circuit } = grandPrixJson;
+      delete grandPrixJson.grandPrix;
+
+      grandPrixJson.grandPrixId = grandPrixJson.id;
+      delete grandPrixJson.id;
+
+      circuit.circuitId = circuit.id;
+      delete circuit.id;
+
+      json.grandsPrix.push({
+        ...grandPrix,
+        ...grandPrixJson,
+      });
+    }
+
+    return json;
+    /* eslint-enable no-param-reassign */
+  },
+});
 
 const onlyUnique = (value, index, self) => self.indexOf(value) === index;
 
