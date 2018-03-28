@@ -175,10 +175,10 @@ SeasonSchema.set('toJSON', {
     // eslint-disable-next-line no-restricted-syntax
     for (const grandPrixDoc of grandsPrix) {
       const grandPrixJson = grandPrixDoc.toJSON();
-      const { grandPrix, circuit } = grandPrixJson;
+      const { id, grandPrix, circuit } = grandPrixJson;
       delete grandPrixJson.grandPrix;
 
-      grandPrixJson.grandPrixId = grandPrixJson.id;
+      grandPrixJson.grandPrixId = grandPrix.id;
       delete grandPrixJson.id;
 
       circuit.circuitId = circuit.id;
@@ -187,6 +187,7 @@ SeasonSchema.set('toJSON', {
       json.grandsPrix.push({
         ...grandPrix,
         ...grandPrixJson,
+        id,
       });
     }
 
