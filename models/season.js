@@ -142,17 +142,17 @@ SeasonSchema.set('toJSON', {
     const previousGrandPrix = [...grandsPrix].reverse().find(gp => gp.raceUTC < now);
 
     json.marketOpen = nextGrandPrix && (!previousGrandPrix || previousGrandPrix.results.length > 0);
-    json.currentTradeFeePercentage = 0;
+    json.currentTransactionFeePercentage = 0;
 
     if (json.marketOpen) {
       if (now > nextGrandPrix.qualifyingUTC) {
-        json.currentTradeFeePercentage = 0.05;
+        json.currentTransactionFeePercentage = 0.05;
       } else if (now > nextGrandPrix.practice3UTC) {
-        json.currentTradeFeePercentage = 0.03;
+        json.currentTransactionFeePercentage = 0.03;
       } else if (now > nextGrandPrix.practice2UTC) {
-        json.currentTradeFeePercentage = 0.02;
+        json.currentTransactionFeePercentage = 0.02;
       } else if (now > nextGrandPrix.practice1UTC) {
-        json.currentTradeFeePercentage = 0.01;
+        json.currentTransactionFeePercentage = 0.01;
       }
     }
 

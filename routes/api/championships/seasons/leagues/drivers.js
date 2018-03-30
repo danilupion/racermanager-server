@@ -25,10 +25,12 @@ router.put('/', user, async (req, res) => {
       leagueUser.money,
     );
 
-    const tradeFee = Number.parseFloat((seasonJson.currentTradeFeePercentage * broker).toFixed(3));
+    const transactionFee = Number.parseFloat(
+      (seasonJson.currentTransactionFeePercentage * broker).toFixed(3)
+    );
 
     // Check that resulting trade fee equals what client provided (otherwise fee might have changed)
-    if (req.body.tradeFee !== tradeFee) {
+    if (req.body.transactionFee !== transactionFee) {
       return res.errorHandler(new BadRequest());
     }
 
@@ -39,7 +41,7 @@ router.put('/', user, async (req, res) => {
     const resultingMoney = Number.parseFloat(
       wantedDrivers.reduce(
         (accumulated, driver) => accumulated - driver.price,
-        broker - tradeFee,
+        broker - transactionFee,
       ).toFixed(3)
     );
 
