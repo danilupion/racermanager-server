@@ -6,25 +6,6 @@ const { NotFound } = require('../../../error/httpStatusCodeErrors');
 
 const router = new express.Router();
 
-const userJsonTransformation = (json) => {
-  const { id } = json.user;
-  // eslint-disable-next-line no-param-reassign
-  delete json.user.id;
-  // eslint-disable-next-line no-param-reassign
-  delete json.user.password;
-
-  return {
-    money: json.money,
-    ...json.user,
-    userId: id,
-  };
-};
-
-const leagueJsonTransformation = json => ({
-  ...json,
-  users: json.users.map(userJsonTransformation),
-});
-
 router.param('league', async (req, res, next, leagueId) => {
   try {
     const league = await League.findOne({ _id: leagueId }).exec();
@@ -55,12 +36,12 @@ router.get('/', ...isAdminMiddlewaresArray, async (req, res) => {
           // eslint-disable-next-line no-underscore-dangle
         })).map(season => season._id),
       },
-    }).populate('users.user');
+    });
 
     return res.send(
-      leagues
-        .map(league => league.toJSON())
-        .map(leagueJsonTransformation)
+      await Promise.all(
+        leagues.map(league => league.toJSON())
+      )
     );
   } catch (err) {
     return res.errorHandler(err);
@@ -76,12 +57,12 @@ router.get('/', ...isAdminMiddlewaresArray, async (req, res) => {
 router.post('/', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     return res.send(
-      leagueJsonTransformation(
-        (await League.create({
+      await (
+        await League.create({
           season: await Season.findOne({ name: (new Date()).getFullYear().toString() }),
           name: req.body.name,
-        })).toJSON()
-      )
+        })
+      ).toJSON()
     );
   } catch (err) {
     return res.errorHandler(err);
@@ -97,10 +78,9 @@ router.post('/', ...isAdminMiddlewaresArray, async (req, res) => {
 router.put('/:league', ...isAdminMiddlewaresArray, async (req, res) => {
   try {
     req.league.name = req.body.name;
-    req.league.save();
-    await req.league.populate('users.user').execPopulate();
+    await req.league.save();
 
-    return res.send(leagueJsonTransformation(await req.league.toJSON()));
+    return res.send(await req.league.toJSON());
   } catch (err) {
     return res.errorHandler(err);
   }
@@ -138,10 +118,8 @@ router.post('/:league/users', ...isAdminMiddlewaresArray, async (req, res) => {
     await req.league.save();
 
     const itemIndex = req.league.users.length - 1;
-    await req.league.populate(`users.${itemIndex}.user`).execPopulate();
-    const user = req.league.users[itemIndex].toJSON();
-
-    return res.send(userJsonTransformation(user));
+    
+    return res.send((await req.league.toJSON()).users[itemIndex]);
   } catch (err) {
     return res.errorHandler(err);
   }

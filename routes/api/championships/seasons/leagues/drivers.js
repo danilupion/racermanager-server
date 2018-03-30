@@ -52,7 +52,7 @@ router.put('/', user, async (req, res) => {
     leagueUser.drivers = req.body.drivers;
 
     await req.league.save();
-    return res.send(req.league);
+    return res.send(await req.league.toJSON());
   } catch (err) {
     return res.errorHandler(err);
   }

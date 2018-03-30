@@ -9,21 +9,6 @@ const { NotFound } = require('../../../../../error/httpStatusCodeErrors');
 
 const router = new express.Router();
 
-const userJsonTransformation = json => ({
-  money: json.money,
-  points: 0, // TODO: calculate
-  userId: json.user.id,
-  username: json.user.username,
-  drivers: !json.drivers || json.drivers.length === 0
-    ? [null, null]
-    : json.drivers,
-});
-
-const leagueJsonTransformation = json => ({
-  ...json,
-  users: json.users.map(userJsonTransformation),
-});
-
 router.use('*', jwtAuth);
 
 router.param('league', async (req, res, next, leagueId) => {
@@ -54,14 +39,16 @@ router.param('league', async (req, res, next, leagueId) => {
  */
 router.get('/', async (req, res) => {
   try {
+    const leagues = await League.find({
+      // eslint-disable-next-line no-underscore-dangle
+      season: req.season._id,
+      'users.user': req.user.id,
+    });
+
     return res.send(
-      (await League.find({
-        // eslint-disable-next-line no-underscore-dangle
-        season: req.season._id,
-        'users.user': req.user.id,
-      }).populate('users.user'))
-        .map(league => league.toJSON())
-        .map(leagueJsonTransformation)
+      await Promise.all(
+        leagues.map(league => league.toJSON())
+      )
     );
   } catch (err) {
     return res.errorHandler(err);

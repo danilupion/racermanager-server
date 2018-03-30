@@ -35,9 +35,36 @@ const LeagueSchema = new mongoose.Schema({
   },
   users: [LeagueUserSchema],
 }, { collection: 'leagues' })
-  .plugin(normalizeJSON)
   .plugin(timestamps)
   .index({ name: 1, season: 1 }, { unique: true });
+
+const userJsonTransformation = json => ({
+  money: json.money,
+  points: 0, // TODO: calculate
+  userId: json.user.id,
+  username: json.user.username,
+  email: json.user.email,
+  drivers: !json.drivers || json.drivers.length === 0
+    ? [null, null]
+    : json.drivers,
+});
+
+LeagueSchema.set('toJSON', {
+  transform: async (doc, json) => {
+    /* eslint-disable no-param-reassign, no-underscore-dangle */
+    json.id = json._id;
+    delete json._id;
+    delete json.__v;
+    /* eslint-enable no-underscore-dangle */
+
+    await doc.populate('users.user').execPopulate();
+
+    json.users = doc.users.map(userJsonTransformation);
+
+    return json;
+    /* eslint-enable no-param-reassign */
+  },
+});
 
 const onlyUnique = (value, index, self) => self.indexOf(value) === index;
 
