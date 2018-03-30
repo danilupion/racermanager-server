@@ -13,6 +13,13 @@ const LeagueUserSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  drivers: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Season',
+    }],
+    default: [],
+  },
 })
   .plugin(normalizeJSON);
 

@@ -13,17 +13,43 @@ const router = new express.Router();
  */
 router.put('/', user, async (req, res) => {
   try {
-    // const seasonJson = await req.season.toJSON();
+    const seasonJson = await req.season.toJSON();
 
-    /*
-    if (req.body.tradeFee !== seasonJson.currentTradePercentageFee) {
+    // eslint-disable-next-line no-underscore-dangle
+    const leagueUser = req.league.users.find(candidate => candidate.user.equals(req.user._id));
+
+    const broker = leagueUser.drivers.map(
+      driverId => seasonJson.drivers.find(candidate => candidate.driverId.equals(driverId))
+    ).reduce(
+      (accumulated, driver) => accumulated + driver.price,
+      leagueUser.money,
+    );
+
+    const tradeFee = seasonJson.currentTradePercentageFee * broker;
+
+    // Check that resulting trade fee equals what client provided (otherwise fee might have changed)
+    if (req.body.tradeFee !== tradeFee) {
       return res.errorHandler(new BadRequest());
     }
-    */
 
-    const userData = req.league.users.find(candidate => candidate.user.equals(req.user._id));
+    const wantedDrivers = req.body.drivers.map(
+      driverId => seasonJson.drivers.find(candidate => candidate.driverId.equals(driverId))
+    );
 
-    // console.log(req.league, req.params, req.body);
+    const resultingMoney = wantedDrivers.reduce(
+      (accumulated, driver) => accumulated - driver.price,
+      broker - tradeFee,
+    );
+
+    // Check that resulting money equals what client provided (otherwise there might be a problem)
+    if (req.body.resultingMoney !== resultingMoney) {
+      return res.error(new BadRequest());
+    }
+
+    leagueUser.money = resultingMoney;
+    leagueUser.drivers = req.body.drivers;
+
+    await req.league.save();
     return res.send(req.league);
   } catch (err) {
     return res.errorHandler(err);

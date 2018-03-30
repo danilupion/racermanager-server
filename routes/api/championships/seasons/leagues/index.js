@@ -14,7 +14,9 @@ const userJsonTransformation = json => ({
   points: 0, // TODO: calculate
   userId: json.user.id,
   username: json.user.username,
-  drivers: [null, null],
+  drivers: !json.drivers || json.drivers.length === 0
+    ? [null, null]
+    : json.drivers,
 });
 
 const leagueJsonTransformation = json => ({
