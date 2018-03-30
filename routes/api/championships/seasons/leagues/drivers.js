@@ -50,6 +50,31 @@ router.put('/', user, async (req, res) => {
       return res.errorHandler(new BadRequest());
     }
 
+    const driverIdToDriverTransactionEntry = (driverId) => {
+      const seasonDriver = seasonJson.drivers
+        .find(candidate => candidate.driverId.equals(driverId));
+
+      return {
+        price: seasonDriver.price,
+        driver: seasonDriver.driverId,
+      };
+    };
+
+    req.league.transactions.push({
+      user: req.user,
+      transactionFee,
+      moneyBefore: leagueUser.money,
+      moneyAfter: resultingMoney,
+      sales: leagueUser.drivers
+        .filter(driverId => !req.body.drivers.includes(driverId.toString()))
+        .map(driverIdToDriverTransactionEntry),
+      purchases: req.body.drivers
+        .filter(
+          driverId => !leagueUser.drivers.map(candidate => candidate.toString()).includes(driverId)
+        )
+        .map(driverIdToDriverTransactionEntry),
+    });
+
     leagueUser.money = resultingMoney;
     leagueUser.drivers = req.body.drivers;
 

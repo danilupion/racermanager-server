@@ -3,6 +3,47 @@ const mongoose = require('mongoose');
 const normalizeJSON = require('../plugins/mongoose/normalizeJSON');
 const timestamps = require('../plugins/mongoose/timestamps');
 
+const TransactionItemSchema = new mongoose.Schema({
+  driver: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Driver',
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+});
+
+const LeagueTransactionSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  transactionFee: {
+    type: Number,
+    required: true,
+  },
+  moneyBefore: {
+    type: Number,
+    required: true,
+  },
+  moneyAfter: {
+    type: Number,
+    required: true,
+  },
+  sales: {
+    type: [TransactionItemSchema],
+    required: true,
+  },
+  purchases: {
+    type: [TransactionItemSchema],
+    required: true,
+  },
+})
+  .plugin(timestamps);
+
 const LeagueUserSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -34,6 +75,7 @@ const LeagueSchema = new mongoose.Schema({
     required: true,
   },
   users: [LeagueUserSchema],
+  transactions: [LeagueTransactionSchema],
 }, { collection: 'leagues' })
   .plugin(timestamps)
   .index({ name: 1, season: 1 }, { unique: true });
@@ -60,6 +102,12 @@ LeagueSchema.set('toJSON', {
     await doc.populate('users.user').execPopulate();
 
     json.users = doc.users.map(userJsonTransformation);
+    json.transactions = json.transactions.map(transaction => ({
+      created: transaction.created,
+      userId: transaction.user,
+      purchases: transaction.purchases.map(purchase => purchase.driver),
+      sales: transaction.sales.map(sale => sale.driver),
+    }));
 
     return json;
     /* eslint-enable no-param-reassign */
