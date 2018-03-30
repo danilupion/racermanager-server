@@ -134,7 +134,7 @@ SeasonSchema.set('toJSON', {
     json.teams = [];
     json.grandsPrix = [];
 
-    json.currentTradePercentageFee = 0.05; // TODO: Calculate properly
+    json.currentTradeFeePercentage = 0.05; // TODO: Calculate properly
 
     const drivers = [...doc.drivers];
 
