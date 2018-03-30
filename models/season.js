@@ -117,6 +117,8 @@ const SeasonSchema = new mongoose.Schema({
 
 SeasonSchema.set('toJSON', {
   transform: async (doc, json) => {
+    const now = Date.now();
+
     /* eslint-disable no-param-reassign, no-underscore-dangle */
     json.id = json._id;
     delete json._id;
@@ -134,7 +136,25 @@ SeasonSchema.set('toJSON', {
     json.teams = [];
     json.grandsPrix = [];
 
-    json.currentTradeFeePercentage = 0.05; // TODO: Calculate properly
+    const grandsPrix = doc.grandsPrix.sort((gp1, gp2) => gp1.raceUTC - gp2.raceUTC);
+
+    const nextGrandPrix = grandsPrix.find(gp => gp.raceUTC > now);
+    const previousGrandPrix = [...grandsPrix].reverse().find(gp => gp.raceUTC < now);
+
+    json.marketOpen = nextGrandPrix && (!previousGrandPrix || previousGrandPrix.results.length > 0);
+    json.currentTradeFeePercentage = 0;
+
+    if (json.marketOpen) {
+      if (now > nextGrandPrix.qualifyingUTC) {
+        json.currentTradeFeePercentage = 0.05;
+      } else if (now > nextGrandPrix.practice3UTC) {
+        json.currentTradeFeePercentage = 0.03;
+      } else if (now > nextGrandPrix.practice2UTC) {
+        json.currentTradeFeePercentage = 0.02;
+      } else if (now > nextGrandPrix.practice1UTC) {
+        json.currentTradeFeePercentage = 0.01;
+      }
+    }
 
     const drivers = [...doc.drivers];
 
@@ -169,8 +189,6 @@ SeasonSchema.set('toJSON', {
 
       json.teams.push(teamJson);
     }
-
-    const grandsPrix = [...doc.grandsPrix];
 
     // eslint-disable-next-line no-restricted-syntax
     for (const grandPrixDoc of grandsPrix) {
