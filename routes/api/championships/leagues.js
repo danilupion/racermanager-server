@@ -118,7 +118,7 @@ router.post('/:league/users', ...isAdminMiddlewaresArray, async (req, res) => {
     await req.league.save();
 
     const itemIndex = req.league.users.length - 1;
-    
+
     return res.send((await req.league.toJSON()).users[itemIndex]);
   } catch (err) {
     return res.errorHandler(err);
