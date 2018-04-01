@@ -2,7 +2,6 @@ const path = require('path');
 const cluster = require('cluster');
 const os = require('os');
 const express = require('express');
-const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const passport = require('passport');
 
@@ -24,7 +23,7 @@ const createServerAsync = async () => {
     app.use(passport.initialize());
 
     // Configure body parser to accept json
-    app.use(bodyParser.json());
+    app.use(express.json());
 
     // Register handler for static assets
     app.use(express.static(path.resolve(__dirname, 'public')));
@@ -57,6 +56,16 @@ if (cluster.isMaster) {
 } else {
   createServerAsync();
 }
+
+process.on('unhandledRejection', (reason, p) => {
+  // eslint-disable-next-line no-console
+  console.error('Unhandled Rejection at:', p, 'reason:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  // eslint-disable-next-line no-console
+  console.error('Caught exception:', err.stack, err);
+});
 
 // Respawn dying workers
 cluster.on('exit', () => {

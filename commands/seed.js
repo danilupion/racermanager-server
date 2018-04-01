@@ -45,7 +45,7 @@ const F1_2018_TEAMS = [
   },
   {
     name: 'Mercedes',
-    countryCode: 'GER',
+    countryCode: 'DEU',
   },
   {
     name: 'Red Bull',
@@ -77,7 +77,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Sebastina Vettel',
-    countryCode: 'GER',
+    countryCode: 'DEU',
     code: 'VET',
   },
   {
@@ -97,7 +97,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Max Verstappen',
-    countryCode: 'NED',
+    countryCode: 'NLD',
     code: 'VER',
   },
   {
@@ -117,7 +117,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Nico Hulkenberg',
-    countryCode: 'GER',
+    countryCode: 'DEU',
     code: 'HUL',
   },
   {
@@ -132,7 +132,7 @@ const F1_2018_DRIVERS = [
   },
   {
     name: 'Kevin Magnussen',
-    countryCode: 'DEN',
+    countryCode: 'DNK',
     code: 'MAG',
   },
   {
@@ -463,11 +463,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.HAM,
-          initialValue: 75,
+          initialPrice: 75,
         },
         {
           driver: drivers.BOT,
-          initialValue: 65,
+          initialPrice: 65,
         },
       ],
     },
@@ -478,11 +478,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.VET,
-          initialValue: 70,
+          initialPrice: 70,
         },
         {
           driver: drivers.RAI,
-          initialValue: 60,
+          initialPrice: 60,
         },
       ],
     },
@@ -493,11 +493,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.RIC,
-          initialValue: 55,
+          initialPrice: 55,
         },
         {
           driver: drivers.VER,
-          initialValue: 50,
+          initialPrice: 50,
         },
       ],
     },
@@ -508,11 +508,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.PER,
-          initialValue: 50,
+          initialPrice: 50,
         },
         {
           driver: drivers.OCO,
-          initialValue: 40,
+          initialPrice: 40,
         },
       ],
     },
@@ -523,11 +523,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.STR,
-          initialValue: 50,
+          initialPrice: 50,
         },
         {
           driver: drivers.SIR,
-          initialValue: 40,
+          initialPrice: 40,
         },
       ],
     },
@@ -538,11 +538,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.HUL,
-          initialValue: 50,
+          initialPrice: 50,
         },
         {
           driver: drivers.SAI,
-          initialValue: 45,
+          initialPrice: 45,
         },
       ],
     },
@@ -553,11 +553,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.GAS,
-          initialValue: 40,
+          initialPrice: 40,
         },
         {
           driver: drivers.HAR,
-          initialValue: 35,
+          initialPrice: 35,
         },
       ],
     },
@@ -568,11 +568,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.GRO,
-          initialValue: 40,
+          initialPrice: 40,
         },
         {
           driver: drivers.MAG,
-          initialValue: 35,
+          initialPrice: 35,
         },
       ],
     },
@@ -583,11 +583,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.ALO,
-          initialValue: 40,
+          initialPrice: 40,
         },
         {
           driver: drivers.VAN,
-          initialValue: 35,
+          initialPrice: 35,
         },
       ],
     },
@@ -598,11 +598,11 @@ const createCurrentF12018SeasonAsync = async () => {
       drivers: [
         {
           driver: drivers.ERI,
-          initialValue: 30,
+          initialPrice: 30,
         },
         {
           driver: drivers.LEC,
-          initialValue: 25,
+          initialPrice: 25,
         },
       ],
     },
@@ -611,27 +611,27 @@ const createCurrentF12018SeasonAsync = async () => {
   const seasonGrandsPrix = [
     {
       code: 'AUS',
-      practice1UTC: '2018-03-23T11:00:00.000Z',
-      practice2UTC: '2018-03-23T15:00:00.000Z',
-      practice3UTC: '2018-03-24T13:00:00.000Z',
-      qualifyingUTC: '2018-03-24T16:00:00.000Z',
-      raceUTC: '2018-03-25T14:10:00.000Z',
+      practice1UTC: '2018-03-23T01:00:00.000Z',
+      practice2UTC: '2018-03-23T05:00:00.000Z',
+      practice3UTC: '2018-03-24T03:00:00.000Z',
+      qualifyingUTC: '2018-03-24T06:00:00.000Z',
+      raceUTC: '2018-03-25T05:10:00.000Z',
     },
     {
       code: 'BHR',
-      practice1UTC: '2018-04-06T12:00:00.000Z',
-      practice2UTC: '2018-04-06T16:00:00.000Z',
-      practice3UTC: '2018-04-07T13:00:00.000Z',
-      qualifyingUTC: '2018-04-07T16:00:00.000Z',
-      raceUTC: '2018-04-08T16:10:00.000Z',
+      practice1UTC: '2018-04-06T10:00:00.000Z',
+      practice2UTC: '2018-04-06T14:00:00.000Z',
+      practice3UTC: '2018-04-07T11:00:00.000Z',
+      qualifyingUTC: '2018-04-07T14:00:00.000Z',
+      raceUTC: '2018-04-08T14:10:00.000Z',
     },
     {
       code: 'CHN',
-      practice1UTC: '2018-04-13T08:00:00.000Z',
-      practice2UTC: '2018-04-13T12:00:00.000Z',
-      practice3UTC: '2018-04-14T09:00:00.000Z',
-      qualifyingUTC: '2018-04-14T12:00:00.000Z',
-      raceUTC: '2018-04-15T12:10:00.000Z',
+      practice1UTC: '2018-04-13T01:00:00.000Z',
+      practice2UTC: '2018-04-13T05:00:00.000Z',
+      practice3UTC: '2018-04-14T02:00:00.000Z',
+      qualifyingUTC: '2018-04-14T05:00:00.000Z',
+      raceUTC: '2018-04-15T05:10:00.000Z',
     },
     {
       code: 'AZE',
