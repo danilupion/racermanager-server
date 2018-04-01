@@ -55,7 +55,7 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
  * Route: /api/championships/:championship/seasons/:season/teams/:team
  * Method: PUT
  *
- * Retrieves a season team
+ * Updates a season team
  */
 router.put('/:team', ...writeMiddlewares, async (req, res) => {
   try {

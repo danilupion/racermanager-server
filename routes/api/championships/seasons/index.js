@@ -57,5 +57,4 @@ fs.readdirSync(__dirname).forEach((file) => {
   router.use(`/:season/${fileName}`, require(`./${fileName}`));
 });
 
-
 module.exports = router;

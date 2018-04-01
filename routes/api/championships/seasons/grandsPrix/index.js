@@ -1,7 +1,9 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 
-const { NotFound } = require('../../../../error/httpStatusCodeErrors');
-const { isAdminMiddlewaresArray: writeMiddlewares } = require('../../../../plugins/express/isAdmin');
+const { NotFound } = require('../../../../../error/httpStatusCodeErrors');
+const { isAdminMiddlewaresArray: writeMiddlewares } = require('../../../../../plugins/express/isAdmin');
 
 const router = new express.Router();
 
@@ -21,10 +23,10 @@ router.param('grandPrix', (req, res, next, grandPrixId) => {
 });
 
 /**
- * Route: /api/championships/:championship/seasons/:season/drivers
+ * Route: /api/championships/:championship/seasons/:season/grandsPrix
  * Method: POST
  *
- * Creates a season driver
+ * Creates a season grand prix
  */
 router.post('/', ...writeMiddlewares, async (req, res) => {
   try {
@@ -66,10 +68,10 @@ router.post('/', ...writeMiddlewares, async (req, res) => {
 });
 
 /**
- * Route: /api/championships/:championship/seasons/:season/drivers/:driver
+ * Route: /api/championships/:championship/seasons/:season/grandsPrix/:grandPrix
  * Method: PUT
  *
- * Retrieves a season driver
+ * Retrieves a season grand prix
  */
 router.put('/:grandPrix', ...writeMiddlewares, async (req, res) => {
   try {
@@ -109,10 +111,10 @@ router.put('/:grandPrix', ...writeMiddlewares, async (req, res) => {
 });
 
 /**
- * Route: /api/championships/:championship/seasons/:season/drivers/:driver
+ * Route: /api/championships/:championship/seasons/:season/grandsPrix/:grandPrix
  * Method: DELETE
  *
- * Deletes a season driver
+ * Deletes a season grand prix
  */
 router.delete('/:grandPrix', ...writeMiddlewares, async (req, res) => {
   try {
@@ -123,6 +125,21 @@ router.delete('/:grandPrix', ...writeMiddlewares, async (req, res) => {
   } catch (err) {
     return res.errorHandler(err);
   }
+});
+
+// Loop over files in this folder
+fs.readdirSync(__dirname).forEach((file) => {
+  const fileName = path.basename(file, path.extname(file));
+  const filePath = path.join(__dirname, file);
+
+  // Skip index.js
+  if (__filename === filePath) {
+    return;
+  }
+
+  // Register route with the same name as the file
+  // eslint-disable-next-line import/no-dynamic-require, global-require
+  router.use(`/:grandPrix/${fileName}`, require(`./${fileName}`));
 });
 
 module.exports = router;
